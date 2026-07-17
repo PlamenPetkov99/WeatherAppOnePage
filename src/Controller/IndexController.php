@@ -39,7 +39,7 @@ final class IndexController extends AbstractController
 
             try {
                 $geoCodeView = $this->geoService->findByCity($cityDto);
-
+                usleep(200000); // 200ms delay
                 $weather = $this->weatherService->getWeather($geoCodeView);
             } catch (CityNotFoundException $e) {
                 $form->addError(new FormError($e->getMessage()));
@@ -48,10 +48,8 @@ final class IndexController extends AbstractController
         }
         elseif ($lat !== null && $lng !== null){ //fetch by lat and lng
 
-            dump('WeatherService::getWeather');
-
             $geoCodeView = $this->geoService->findByCoordinates($lat,$lng);
-
+            usleep(200000); // 200ms delay
             $weather = $this->weatherService->getWeather($geoCodeView);
 
             $form->get('name')->setData($geoCodeView->getName());
