@@ -1,0 +1,9 @@
+framework:
+    http_client:
+        scoped_clients:
+            weather.client:
+                base_uri: 'https://api.open-meteo.com'
+            geo_code_reverse.client:
+                base_uri: 'https://api.bigdatacloud.net'
+            geo_code.client:
+                base_uri: 'https://geocoding-api.open-meteo.com'

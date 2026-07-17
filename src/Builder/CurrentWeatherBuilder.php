@@ -3,29 +3,26 @@
 namespace App\Builder;
 
 use App\Dto\CurrentWeatherDto;
-use App\Dto\WeatherResponseDto;
+use App\Dto\WeatherDto;
 
 class CurrentWeatherBuilder
 {
-    public static function buildFromDto(
-        WeatherResponseDto $weatherResponse
-    ): CurrentWeatherDto
+    public static function build(WeatherDto $weatherDto): ?CurrentWeatherDto
     {
-           $currentWeather = new CurrentWeatherDto();
-           $currentWeather->setInterval($weatherResponse->getCurrent()['interval']);
-           $currentWeather->setTime(\DateTimeImmutable::createFromFormat('Y-m-d\TH:i', $weatherResponse->getCurrent()['time']));
-           $currentWeather->setTemperature($weatherResponse->getCurrent()['temperature_2m']);
-           $currentWeather->setWeatherCode($weatherResponse->getCurrent()['weather_code']);
-           $currentWeather->setTemperatureUnit($weatherResponse->getCurrentUnits()['temperature_2m']);
-           $currentWeather->setApparentTemperature($weatherResponse->getCurrent()['apparent_temperature']);
-           $currentWeather->setIsDay($weatherResponse->getCurrent()['is_day']);
-           $currentWeather->setRelativeHumidity($weatherResponse->getCurrent()['relative_humidity_2m']);
-           $currentWeather->setRelativeHumidityUnit($weatherResponse->getCurrentUnits()['relative_humidity_2m']);
-           $currentWeather->setWindSpeed($weatherResponse->getCurrent()['wind_speed_10m']);
-           $currentWeather->setWindSpeedUnit($weatherResponse->getCurrentUnits()['wind_speed_10m']);
-           $currentWeather->setSurfacePressure($weatherResponse->getCurrent()['surface_pressure']);
-           $currentWeather->setSurfacePressureUnit($weatherResponse->getCurrentUnits()['surface_pressure']);
-
-           return $currentWeather;
+        $currentWeather = $weatherDto->getCurrent();
+        if(!$currentWeather)
+        {
+            return null;
+        }
+        return new CurrentWeatherDto()
+            ->setApparentTemperature($currentWeather['apparent_temperature'])
+            ->setInterval($currentWeather['interval'])
+            ->setIsDay($currentWeather['is_day'])
+            ->setRelativeHumidity($currentWeather['relative_humidity_2m'])
+            ->setSurfacePressure($currentWeather['surface_pressure'])
+            ->setTemperature($currentWeather['temperature_2m'])
+            ->setTime(new \DateTimeImmutable($currentWeather['time']))
+            ->setWeatherCode($currentWeather['weather_code'])
+            ->setWindSpeed($currentWeather['wind_speed_10m']);
     }
 }

@@ -33,12 +33,12 @@
         {% if weather %}
                 <div class="card map-card">
                     {{ ux_map(
-                        center: [weather['geoCodeResponseDto'].getLatitude(), weather['geoCodeResponseDto'].getLongitude()],
+                        center: [weather.geoCodeViewModel.latitude, weather.geoCodeViewModel.longitude],
                         zoom: 12,
                         markers: [
-                            { position: [weather['geoCodeResponseDto'].getLatitude(), weather['geoCodeResponseDto'].getLongitude()],
-                                title: weather['geoCodeResponseDto'].getName(),
-                                infoWindow: {content: '<h3>' ~ weather['geoCodeResponseDto'].getName() ~ '</h3><p>Temperature: ' ~ weather['currentWeather'].getTemperature() ~ '°C</p>'}
+                            { position: [weather.geoCodeViewModel.latitude, weather.geoCodeViewModel.longitude],
+                                title: weather.geoCodeViewModel.name,
+                                infoWindow: {content: '<h3>' ~ weather.geoCodeViewModel.name ~ '</h3><p>Temperature: ' ~ weather.currentWeatherDto.temperature ~ '°C</p>'}
                             },
                         ],
                         fitBoundsToMarkers: false,
@@ -55,45 +55,45 @@
 
             <section class="grid">
                 <div class="card main">
-                    <div class="city">{{ weather['geoCodeResponseDto'].getName() }}</div>
-                    <div class="temp">{{ weather['currentWeather'].getTemperature()|number_format(1) }}{{ weather['currentWeather'].getTemperatureUnit() }}</div>
-                    <div class="desc">{{ weather['currentWeather'].getWeatherDescription() }}</div>
+                    <div class="city">{{ weather.geoCodeViewModel.name }}</div>
+                    <div class="temp">{{ weather.currentWeatherDto.temperature|number_format(1) }}{{ weather.currentWeatherUnitsDto.temperatureUnit }}</div>
+                    <div class="desc">{{ weather.currentWeatherDto.description }}</div>
 
                     <div class="meta">
-                        <div>💨 {{ weather['currentWeather'].getWindSpeed()}} {{ weather['currentWeather'].getWindSpeedUnit() }}</div>
-                        <div>💧 {{ weather['currentWeather'].getRelativeHumidity() }}{{ weather['currentWeather'].getRelativeHumidityUnit() }}</div>
-                        <div>🌡️ {{ weather['currentWeather'].getApparentTemperature()|number_format(1) }}{{ weather['currentWeather'].getTemperatureUnit() }} feels</div>
+                        <div>💨 {{ weather.currentWeatherDto.windSpeed}} {{ weather.currentWeatherUnitsDto.windSpeedUnit }}</div>
+                        <div>💧 {{ weather.currentWeatherDto.relativeHumidity }}{{ weather.currentWeatherUnitsDto.relativeHumidityUnit }}</div>
+                        <div>🌡️ {{ weather.currentWeatherDto.apparentTemperature|number_format(1) }}{{ weather.currentWeatherUnitsDto.temperatureUnit }} feels</div>
                     </div>
                 </div>
 
                 <div class="card small">
                     <div class="label">Humidity</div>
-                    <div class="value">{{ weather['currentWeather'].getRelativeHumidity() }}{{ weather['currentWeather'].getRelativeHumidityUnit() }}</div>
+                    <div class="value">{{ weather.currentWeatherDto.relativeHumidity }}{{ weather.currentWeatherUnitsDto.relativeHumidityUnit }}</div>
                 </div>
 
                 <div class="card small">
                     <div class="label">Wind</div>
-                    <div class="value">{{ weather['currentWeather'].getWindSpeed() }} {{ weather['currentWeather'].getWindSpeedUnit() }}</div>
+                    <div class="value">{{ weather.currentWeatherDto.windSpeed }} {{ weather.currentWeatherUnitsDto.windSpeedUnit }}</div>
                 </div>
 
                 <div class="card small">
                     <div class="label">Pressure</div>
-                    <div class="value">{{ weather['currentWeather'].getSurfacePressure() }} {{ weather['currentWeather'].getSurfacePressureUnit() }}</div>
+                    <div class="value">{{ weather.currentWeatherDto.surfacePressure }} {{ weather.currentWeatherUnitsDto.surfacePressureUnit }}</div>
                 </div>
 
             </section>
 
             <section class="forecast">
                 <h2>5 Day Forecast</h2>
-
                 <div class="forecast-grid">
-                    {% for day in weather['dailyWeatherForecast'].getDays() %}
+                    {% for date in weather.dailyForecastDto.time %}
+                        {% set index = loop.index0 %}
                         <div class="forecast-card">
-                            <div class="day">{{ day.getDate().format('D') }}</div>
+                            <div class="day">{{ weather.dailyForecastDto.time[index].format('D') }}</div>
                             <div class="icon">
-                                <img src="/weather-icons/{{ day.getIconName() }}" alt="weather icon">
+                                <img src="/weather-icons/{{ weather.dailyForecastDto.icon(weather.dailyForecastDto.weatherCodes[index]) }}" alt="weather icon">
                             </div>
-                            <div class="temps">{{ day.getTemperatureMax()|number_format(1) }}{{ day.getTemperatureUnit() }} / {{ day.getTemperatureMin()|number_format(1) }}{{ day.getTemperatureUnit() }}</div>
+                            <div class="temps">{{ weather.dailyForecastDto.maxTemperature[index]|number_format(1) }}{{ weather.dailyForecastUnitsDto.temperatureMaxUnit }} / {{  weather.dailyForecastDto.minTemperature[index]|number_format(1) }}{{ weather.dailyForecastUnitsDto.temperatureMinUnit }}</div>
                         </div>
                     {% endfor %}
                 </div>

@@ -3,29 +3,19 @@
 namespace App\Builder;
 
 use App\Dto\DailyForecastDto;
-use App\Dto\DayCardDto;
-use App\Dto\WeatherResponseDto;
+use App\Dto\WeatherDto;
 
 class DailyForecastBuilder
 {
-    public static function buildFromDto(WeatherResponseDto $weatherResponseDto): DailyForecastDto
+    public static function build(WeatherDto $weatherDto): DailyForecastDto
     {
-        $dailyForecast = new DailyForecastDto();
-        $temperatureUnit = $weatherResponseDto->getDailyUnits()['temperature_2m_max'];
-
-        $daily = $weatherResponseDto->getDaily();
-        $dailyForecast->setDays(
-            array_map(
-                static fn(int $index) => new DayCardDto()
-                ->setTemperatureMax($daily['temperature_2m_max'][$index])
-                ->setDate(new \DateTimeImmutable($daily['time'][$index]))
-                ->setTemperatureMin($daily['temperature_2m_min'][$index])
-                ->setWeatherCode($daily['weather_code'][$index])
-                ->setTemperatureUnit($temperatureUnit),
-            array_keys($daily['time'])
-            )
-        );
-
-        return $dailyForecast;
+        $dailyArrays = $weatherDto->getDaily();
+        return new DailyForecastDto()
+            ->setWindSpeed($dailyArrays['wind_speed_10m_max'])
+            ->setWeatherCodes($dailyArrays['weather_code'])
+            ->setTime($dailyArrays['time'])
+            ->setPrecipitationProbabilityMax($dailyArrays['precipitation_probability_max'])
+            ->setMinTemperature($dailyArrays['temperature_2m_min'])
+            ->setMaxTemperature($dailyArrays['temperature_2m_max']);
     }
 }

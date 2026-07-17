@@ -2,25 +2,30 @@
 
 namespace App\Manager;
 
+use App\Dto\RequestInputDataDto;
+use App\Interface\BaseHttpClientInterface;
+use Symfony\Component\DependencyInjection\Attribute\Target;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class WeatherRequestManager
+readonly class WeatherRequestManager implements BaseHttpClientInterface
 {
     public function __construct(
-        private readonly HttpClientInterface $client
+        #[Target('weather.client')]
+        private HttpClientInterface $weatherClient
     ){}
 
-    public function get(
-        float $latitude,
-        float $longtitude,
-    ){
-        return $this->client->request(
-            'GET',
-            'https://api.open-meteo.com/v1/forecast',
+
+    public function get(RequestInputDataDto $data): ResponseInterface
+    {
+        return $this->weatherClient->request(
+            Request::METHOD_GET,
+            '/v1/forecast',
             [
                 'query' => [
-                    'latitude' => $latitude,
-                    'longitude' => $longtitude,
+                    'latitude' => $data->getLatitude(),
+                    'longitude' => $data->getLongtitude(),
                     'current' => implode(',', [
                         'temperature_2m',
                         'relative_humidity_2m',

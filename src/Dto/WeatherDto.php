@@ -2,19 +2,19 @@
 
 namespace App\Dto;
 
-class WeatherResponseDto
+class WeatherDto
 {
-    private float $latitude;
-    private float $longitude;
-    private float $generationtimeMs;
-    private int $utcOffsetSeconds;
-    private string $timezone;
-    private string $timezoneAbbreviation;
-    private float $elevation;
-    private array $currentUnits;
-    private array $current;
-    private array $daily;
-    private array $dailyUnits;
+    private ?float $latitude;
+    private ?float $longitude;
+    private ?float $generationtimeMs;
+    private ?int $utcOffsetSeconds;
+    private ?string $timezone;
+    private ?string $timezoneAbbreviation;
+    private ?float $elevation;
+    private ?array $currentUnits;
+    private ?array $current;
+    private ?array $daily;
+    private ?array $dailyUnits;
 
     public function __construct(){}
 
@@ -129,6 +129,4 @@ class WeatherResponseDto
     {
         $this->current = $current;
     }
-
-
 }

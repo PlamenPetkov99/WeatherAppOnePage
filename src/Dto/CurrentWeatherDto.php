@@ -4,157 +4,127 @@ namespace App\Dto;
 
 class CurrentWeatherDto
 {
-    private ?\DateTimeImmutable $time = null;
-    private int $interval = 0;
-    private float $temperature = 0;
-    private int $weatherCode = 0;
-    private string $temperatureUnit = 'default';
-    private float $relativeHumidity = 0.0;
-    private float $apparentTemperature = 0.0;
-    private float $windSpeed = 0.0;
-    private bool $isDay = false;
-    private float $surfacePressure = 0.0;
-    private string $relativeHumidityUnit = 'default';
-    private string $windSpeedUnit = 'default';
-    private string $surfacePressureUnit = 'default';
 
+    private ?\DateTimeImmutable $time;
+    private ?int $interval;
+    private ?float $temperature;
+    private ?float $relativeHumidity;
+    private ?float $apparentTemperature;
+    private ?int $weatherCode;
+    private ?float $windSpeed;
+    private ?float $surfacePressure;
+    private ?bool $isDay;
     public function __construct(){}
 
-    public function getWeatherDescription(): string
-    {
-        return WeatherCode::getDescription($this->weatherCode);
-    }
-    public function getRelativeHumidity(): float
-    {
-        return $this->relativeHumidity;
-    }
-
-    public function setRelativeHumidity(float $relativeHumidity): void
-    {
-        $this->relativeHumidity = $relativeHumidity;
-    }
-
-    public function getApparentTemperature(): float
-    {
-        return $this->apparentTemperature;
-    }
-
-    public function setApparentTemperature(float $apparentTemperature): void
-    {
-        $this->apparentTemperature = $apparentTemperature;
-    }
-
-    public function getWindSpeed(): float
-    {
-        return $this->windSpeed;
-    }
-
-    public function setWindSpeed(float $windSpeed): void
-    {
-        $this->windSpeed = $windSpeed;
-    }
-
-    public function isDay(): bool
-    {
-        return $this->isDay;
-    }
-
-    public function setIsDay(bool $isDay): void
-    {
-        $this->isDay = $isDay;
-    }
-
-    public function getSurfacePressure(): float
-    {
-        return $this->surfacePressure;
-    }
-
-    public function setSurfacePressure(float $surfacePressure): void
-    {
-        $this->surfacePressure = $surfacePressure;
-    }
-
-    public function getRelativeHumidityUnit(): string
-    {
-        return $this->relativeHumidityUnit;
-    }
-
-    public function setRelativeHumidityUnit(string $relativeHumidityUnit): void
-    {
-        $this->relativeHumidityUnit = $relativeHumidityUnit;
-    }
-
-    public function getWindSpeedUnit(): string
-    {
-        return $this->windSpeedUnit;
-    }
-
-    public function setWindSpeedUnit(string $windSpeedUnit): void
-    {
-        $this->windSpeedUnit = $windSpeedUnit;
-    }
-
-    public function getSurfacePressureUnit(): string
-    {
-        return $this->surfacePressureUnit;
-    }
-
-    public function setSurfacePressureUnit(string $surfacePressureUnit): void
-    {
-        $this->surfacePressureUnit = $surfacePressureUnit;
-    }
-
-
-
-    public function getTemperature(): float
-    {
-        return $this->temperature;
-    }
-
-    public function setTemperature(float $temperature): void
-    {
-        $this->temperature = $temperature;
-    }
-
-    public function getTemperatureUnit(): string
-    {
-        return $this->temperatureUnit;
-    }
-
-    public function setTemperatureUnit(string $temperatureUnit): void
-    {
-        $this->temperatureUnit = $temperatureUnit;
-    }
-
-
-    public function getTime(): \DateTimeImmutable
+    public function getTime(): ?\DateTimeImmutable
     {
         return $this->time;
     }
 
-    public function setTime(\DateTimeImmutable $time): void
+    public function setTime(?\DateTimeImmutable $time): self
     {
         $this->time = $time;
+        return $this;
     }
 
-    public function getInterval(): int
+    public function getInterval(): ?int
     {
         return $this->interval;
     }
 
-    public function setInterval(int $interval): void
+    public function setInterval(?int $interval): self
     {
         $this->interval = $interval;
+        return $this;
     }
-    public function getWeatherCode(): int
+
+    public function getTemperature(): ?float
+    {
+        return $this->temperature;
+    }
+
+    public function setTemperature(?float $temperature): self
+    {
+        $this->temperature = $temperature;
+        return $this;
+    }
+
+    public function getRelativeHumidity(): ?float
+    {
+        return $this->relativeHumidity;
+    }
+
+    public function setRelativeHumidity(?float $relativeHumidity): self
+    {
+        $this->relativeHumidity = $relativeHumidity;
+        return $this;
+    }
+
+    public function getApparentTemperature(): ?float
+    {
+        return $this->apparentTemperature;
+    }
+
+    public function setApparentTemperature(?float $apparentTemperature): self
+    {
+        $this->apparentTemperature = $apparentTemperature;
+        return $this;
+    }
+
+    public function getWeatherCode(): ?int
     {
         return $this->weatherCode;
     }
 
-    public function setWeatherCode(int $weatherCode): void
+    public function setWeatherCode(?int $weatherCode): self
     {
         $this->weatherCode = $weatherCode;
+        return $this;
     }
+
+    public function getWindSpeed(): ?float
+    {
+        return $this->windSpeed;
+    }
+
+    public function setWindSpeed(?float $windSpeed): self
+    {
+        $this->windSpeed = $windSpeed;
+        return $this;
+    }
+
+    public function getSurfacePressure(): ?float
+    {
+        return $this->surfacePressure;
+    }
+
+    public function setSurfacePressure(?float $surfacePressure): self
+    {
+        $this->surfacePressure = $surfacePressure;
+        return $this;
+    }
+
+    public function getIsDay(): ?bool
+    {
+        return $this->isDay;
+    }
+
+    public function setIsDay(?bool $isDay): self
+    {
+        $this->isDay = $isDay;
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return WeatherCode::getDescription($this->weatherCode);
+    }
+
+    public function getIcon(): string
+    {
+        return WeatherCode::getIconName($this->weatherCode);
+    }
+
 
 
 }

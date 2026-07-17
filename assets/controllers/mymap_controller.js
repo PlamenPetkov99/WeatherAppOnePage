@@ -27,7 +27,7 @@ export default class extends Controller {
         // });
         marker.on('dragend', (e) => {
             const { lat, lng } = e.target.getLatLng();
-            document.getElementById('the_frame_id').src = `/index?lat=${lat}&lng=${lng}`;
+            document.getElementById('the_frame_id').src = `/?lat=${lat}&lng=${lng}`;
         });
     }
 
