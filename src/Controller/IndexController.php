@@ -44,8 +44,11 @@ final class IndexController extends AbstractController
             } catch (CityNotFoundException $e) {
                 $form->addError(new FormError($e->getMessage()));
             }
+
         }
         elseif ($lat !== null && $lng !== null){ //fetch by lat and lng
+
+            dump('WeatherService::getWeather');
 
             $geoCodeView = $this->geoService->findByCoordinates($lat,$lng);
 

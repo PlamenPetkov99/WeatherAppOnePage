@@ -14,7 +14,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class WeatherService
 {
     public function __construct(
-        private readonly GeoService $geoService,
         private readonly WeatherRequestManager $weatherRequestManager,
         private readonly ParseService $parser,
         private readonly RequestInputDataDtoBuilder $requestInputDataDtoBuilder,
