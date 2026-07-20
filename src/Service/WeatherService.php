@@ -9,28 +9,46 @@ use App\Factory\WeatherViewModelFactory;
 use App\Manager\WeatherRequestManager;
 use App\ViewModel\GeoCodeViewModel;
 use App\ViewModel\WeatherViewModel;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class WeatherService
 {
     public function __construct(
-        private readonly WeatherRequestManager $weatherRequestManager,
-        private readonly ParseService $parser,
+        private readonly WeatherRequestManager      $weatherRequestManager,
+        private readonly ParseService               $parser,
         private readonly RequestInputDataDtoBuilder $requestInputDataDtoBuilder,
-        private readonly WeatherViewModelFactory $weatherFactory,
+        private readonly WeatherViewModelFactory    $weatherFactory,
+        private readonly CacheKeyFactory            $cacheKeyFactory,
+        private readonly CacheInterface             $cache,
     ){}
 
-    public function getWeather(GeoCodeViewModel $geoCodeView): WeatherViewModel
+    public function getWeather(
+        GeoCodeViewModel $geoCodeView,
+    ): WeatherViewModel
     {
 
-        //cache logic
-        $weatherResponse = $this->fetchWeather($geoCodeView);
+        return $this->cache->get(
+            $this->cacheKeyFactory->generateKeyForWeatherService($geoCodeView),
+            function (ItemInterface $item) use ($geoCodeView)
+            {
+                $item->expiresAfter(300);
 
-        $weatherDto = $this->parser->parseFromArray($weatherResponse->toArray(), WeatherDto::class);
+                $response = $this->fetchWeather($geoCodeView);
 
-        return $this->weatherFactory->buildWeather(
-            $geoCodeView,
-            $weatherDto
+                $weatherDto = $this->parser->parseFromArray(
+                    $response->toArray(),
+                    WeatherDto::class
+                );
+
+                dump('im in the callback');
+
+                return $this->weatherFactory->buildWeather(
+                    $geoCodeView,
+                    $weatherDto
+                );
+            }
         );
     }
 

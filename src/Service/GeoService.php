@@ -11,34 +11,49 @@ use App\Manager\GeoCodeRequestManager;
 use App\Manager\ReverseGeoCodeRequestManager;
 use App\ViewModel\GeoCodeViewModel;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class GeoService
 {
     public function __construct(
-        private readonly GeoCodeRequestManager $geoCodeRequestManager,
+        private readonly GeoCodeRequestManager        $geoCodeRequestManager,
         private readonly ReverseGeoCodeRequestManager $reverseGeoCodeRequestManager,
-        private readonly RequestInputDataDtoBuilder $requestInputDataDtoBuilder,
-        private readonly ParseService $parser,
-        private readonly ValidatorInterface $validator,
+        private readonly RequestInputDataDtoBuilder   $requestInputDataDtoBuilder,
+        private readonly ParseService                 $parser,
+        private readonly ValidatorInterface           $validator,
+        private readonly CacheKeyFactory              $cacheKeyFactory,
+        private readonly CacheInterface               $cache,
     ){}
     public function findByCity(CityDto $cityDto): GeoCodeViewModel
     {
-        $location = $this->geoCodeRequestManager->get(
-            $this->requestInputDataDtoBuilder
-                ->withCity($cityDto->getName())
-                ->build()
+        return $this->cache->get(
+            $this->cacheKeyFactory->generateKeyForGeoServiceFindByCity($cityDto),
+            function (ItemInterface $item) use ($cityDto)
+            {
+                $item->expiresAfter(300);
+
+                $location = $this->geoCodeRequestManager->get(
+                    $this->requestInputDataDtoBuilder
+                        ->withCity($cityDto->getName())
+                        ->build()
+                );
+
+                $geoResponseDto = $this->parser->parseFromJson($location->getContent(), GeoResponseDto::class);
+
+                $errors = $this->validator->validate($geoResponseDto);
+
+                if (count($errors) > 0) {
+                    throw new CityNotFoundException('City is not found.');
+                }
+
+                dump('im in the callback');
+
+                return $this->parser->parseFromArray(
+                    $geoResponseDto->getResults(),
+                    GeoCodeViewModel::class);
+            }
         );
-
-        $geoResponseDto = $this->parser->parseFromJson($location->getContent(), GeoResponseDto::class);
-
-        $errors = $this->validator->validate($geoResponseDto);
-
-        if (count($errors) > 0) {
-            throw new CityNotFoundException('City is not found.');
-        }
-
-        return $this->parser->parseFromArray($geoResponseDto->getResults(), GeoCodeViewModel::class);
     }
 
     public function findByCoordinates(
