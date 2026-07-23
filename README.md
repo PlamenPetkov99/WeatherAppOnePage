@@ -6,7 +6,7 @@ SkyCast is a modern weather dashboard built with Symfony that provides real-time
 
 🌤️ Check out Weather Dashboard!
 You can check it out here:
-👉 https://skycast-uqyk.onrender.com/index
+👉 https://skycast-uqyk.onrender.com/
 
 ⚠️ Note on Loading: The application is hosted on Render's free tier. If the link takes about a minute to load initially, that is completely normal! The server automatically "spins down" when inactive and needs around 50–60 seconds to wake up and handle the first request. Once it's awake, it runs smoothly!
 
