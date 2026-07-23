@@ -7,3 +7,5 @@ framework:
                 base_uri: 'https://api.bigdatacloud.net'
             geo_code.client:
                 base_uri: 'https://geocoding-api.open-meteo.com'
+            auth.client:
+                base_uri: 'https://authentication-system-xdgd.onrender.com'
