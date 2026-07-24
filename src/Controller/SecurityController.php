@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
+use App\Service\AuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SecurityController extends AbstractController
 {
     public function __construct(
-        #[Target('auth.client')]
-        private readonly HttpClientInterface $authClient,
+        private readonly AuthService $authService,
     ) {
     }
 

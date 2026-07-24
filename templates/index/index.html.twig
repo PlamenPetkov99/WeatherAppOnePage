@@ -9,40 +9,22 @@
     <div class="container">
 
         <nav class="navbar">
-            <div class="nav-logo">
-                <a href="{{ path('app_index') }}">
-                    <img src="/logo/logo.svg" alt="SkyCast">
-                    <span>SkyCast</span>
+
+            <a href="{{ path('app_index') }}" class="navbar-brand">
+                <img src="/logo/logo.svg" alt="SkyCast">
+                <span>SkyCast</span>
+            </a>
+
+            <div class="navbar-actions">
+                <a href="{{ path('app_login') }}" class="btn-login">
+                    Login
+                </a>
+
+                <a href="{{ path('app_register') }}" class="btn-register">
+                    Create Account
                 </a>
             </div>
 
-            <div class="nav-links">
-                <a href="{{ path('app_index') }}">
-                    Weather
-                </a>
-
-                <a href="#">
-                    Favorites
-                </a>
-
-                {% if app.user %}
-                    <a href="#">
-                        Profile
-                    </a>
-
-                    <a href="{{ path('app_logout') }}" class="btn logout">
-                        Logout
-                    </a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn login">
-                        Login
-                    </a>
-
-                    <a href="{{ path('app_register') }}" class="btn register">
-                        Register
-                    </a>
-                {% endif %}
-            </div>
         </nav>
 
         <header class="top">

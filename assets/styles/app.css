@@ -240,7 +240,113 @@ form ul li {
     transform: scale(0.98);
 }
 
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
+    margin-bottom:35px;
+    padding:12px 20px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.18);
+}
+
+.navbar-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.navbar-brand img{
+    width:32px;
+    height:32px;
+    display:block;
+}
+
+.navbar-brand span{
+    font-size:24px;
+    font-weight:700;
+    color:#fff;
+}
+
+.navbar-brand .title{
+    display:block;
+
+    font-size:18px;
+    font-weight:700;
+}
+
+.navbar-brand .subtitle{
+    display:block;
+
+    margin-top:4px;
+
+    color:#9caec6;
+    font-size:12px;
+    opacity:.75;
+}
+
+.navbar-actions{
+    display:flex;
+    gap:16px;
+}
+
+.btn-login,
+.btn-register{
+    padding:9px 18px;
+    font-size:14px;
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.btn-login{
+
+    background:transparent;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+}
+
+.btn-login:hover{
+
+    background:rgba(255,255,255,.08);
+
+    transform:translateY(-2px);
+}
+
+.btn-register{
+
+    padding:9px 18px;
+
+    background:linear-gradient(
+        135deg,
+        #4facfe,
+        #00c6ff
+    );
+
+    font-size:14px;
+}
+
+.btn-register:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 14px 38px rgba(79,172,254,.45);
+}
 
 /* responsive */
 @media (max-width: 800px) {
