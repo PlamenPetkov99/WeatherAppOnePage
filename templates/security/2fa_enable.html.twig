@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Set up Two-Factor Authentication - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-wrapper">
+
+        <div class="auth-card">
+
+            <h1>
+                🔒 Secure your account
+            </h1>
+
+            <p class="auth-subtitle">
+                Scan this QR code using Google Authenticator, Microsoft Authenticator, Authy, or another compatible app.
+            </p>
+
+            <div class="qr-container">
+
+                <img
+                    src="{{ qrCode }}"
+                    alt="Two-Factor Authentication QR Code"
+                    class="qr-image"
+                >
+
+            </div>
+
+            <div class="manual-code">
+
+            <span class="manual-label">
+                Can't scan the QR code?
+            </span>
+
+                <div class="secret-key">
+                    {{ secret }}
+                </div>
+
+                <p class="manual-text">
+                    Enter this secret manually into your authenticator application.
+                </p>
+
+            </div>
+
+            <div class="auth-link-actions">
+
+                <a href="{{ path('app_2fa_verify') }}" class="auth-button auth-link-button">
+                    Continue
+                </a>
+
+                <a href="{{ path('app_profile') }}" class="auth-secondary-button auth-link-button">
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

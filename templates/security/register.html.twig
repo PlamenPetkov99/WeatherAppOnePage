@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Register - SkyCast
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="auth-wrapper">
+
+        <div class="auth-card">
+
+            <h1>
+                Create account 🌤️
+            </h1>
+
+
+            <p class="auth-subtitle">
+                Join SkyCast and save your weather experience
+            </p>
+
+
+            <form method="post">
+
+
+                <div class="form-group">
+
+                    {{ form_label(form.email) }}
+
+                    {{ form_widget(form.email) }}
+
+                    {{ form_errors(form.email) }}
+
+                </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.password.first) }}
+
+                    {{ form_widget(form.password.first) }}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    {{ form_label(form.password.second) }}
+
+                    {{ form_widget(form.password.second) }}
+
+                    {{ form_errors(form.password.first) }}
+
+                </div>
+
+                <div class="form-global-error">
+                    {{ form_errors(form) }}
+                </div>
+
+                {{ form_row(form.register) }}
+
+                {{ form_row(form._token) }}
+
+                <a href="{{ path('app_index') }}" class="auth-secondary-button">
+                    ← Back to home
+                </a>
+
+            </form>
+
+
+            <p class="auth-footer">
+
+                Already have an account?
+
+                <a href="{{ path('app_login') }}">
+                    Login
+                </a>
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

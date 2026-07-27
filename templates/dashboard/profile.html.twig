@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    My Profile - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="profile-wrapper">
+
+        <div class="profile-card">
+
+            <h1>👤 My Profile</h1>
+
+            <p class="profile-subtitle">
+                Manage your SkyCast account
+            </p>
+
+            <section class="profile-section">
+
+                <h2>Account Information</h2>
+
+                <div class="profile-row">
+                    <span>Email</span>
+                    <strong>john.doe@example.com</strong>
+                </div>
+
+                <div class="profile-row">
+                    <span>Full Name</span>
+                    <strong>John Doe</strong>
+                </div>
+
+                <div class="profile-row">
+                    <span>Member Since</span>
+                    <strong>24 Jul 2026</strong>
+                </div>
+
+            </section>
+
+            <section class="profile-section">
+
+                <h2>Security</h2>
+
+                <div class="profile-row">
+                    <span>Two-Factor Authentication</span>
+                    <strong class="status-disabled">Disabled</strong>
+                </div>
+
+                <div class="profile-row">
+                    <span>Password</span>
+                    <strong>••••••••••</strong>
+                </div>
+
+            </section>
+
+            <div class="profile-actions">
+
+                <button class="auth-button">
+                    Edit Profile
+                </button>
+
+                <button class="auth-button">
+                    Change Password
+                </button>
+
+                <button class="auth-button">
+                    Enable 2FA
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

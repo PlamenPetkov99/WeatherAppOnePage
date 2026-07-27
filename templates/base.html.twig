@@ -21,6 +21,73 @@
         {% endif %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <div class="bg"></div>
+
+        <div class="container">
+
+            <div class="flash-container">
+
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+
+            <header class="skycast-header">
+
+                <div class="logo">
+                    <a href="{{ path('app_index') }}">
+                        <img src="/logo/logo.svg" alt="weather icon">
+                    </a>
+                </div>
+
+
+                <nav class="skycast-navigation">
+
+                    {% if app.user %}
+
+                        <a class="navbar-link" href="{{ path(name:'app_profile') }}">
+                            Profile
+                        </a>
+
+                        <a class="navbar-link" href="#">
+                            Dashboard
+                        </a>
+
+                        <a class="navbar-link navbar-primary" href="{{ path(name:'app_logout') }}">
+                            Logout
+                        </a>
+
+                    {% else %}
+
+                        <a class="navbar-link" href="{{ path(name:'app_login') }}">
+                            Login
+                        </a>
+
+                        <a class="navbar-link navbar-primary" href="{{ path(name:'app_register') }}">
+                            Register
+                        </a>
+
+                    {% endif %}
+
+                </nav>
+
+            </header>
+
+
+            <main class="skycast-content">
+
+                {% block body %}
+
+                {% endblock %}
+
+            </main>
+
+        </div>
     </body>
 </html>
