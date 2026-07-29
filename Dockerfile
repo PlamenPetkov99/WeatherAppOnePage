@@ -45,5 +45,13 @@ RUN php bin/console cache:clear --env=prod
 # Set appropriate permissions for the web server
 RUN chown -R www-data:www-data /var/www/html
 
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+
 # Expose port 80
 EXPOSE 80
