@@ -57,12 +57,17 @@
                     {{ form_errors(form) }}
                 </div>
 
-                {{ form_row(form.register) }}
+                {{ form_widget(form.register, {
+                    label_html: true,
+                    label: ux_icon('lucide:corner-down-left') ~ ' Register'
+                }) }}
 
                 {{ form_row(form._token) }}
 
                 <a href="{{ path('app_index') }}" class="auth-secondary-button">
-                    ← Back to home
+                    {{ ux_icon('lucide:move-left', {
+                        class: 'nav-icon'
+                    }) }} Back to home
                 </a>
 
             </form>

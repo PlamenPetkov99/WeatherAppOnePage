@@ -14,6 +14,32 @@ class LoginUserDto
     #[Assert\Length(min: 6, minMessage: 'Password must be at least 6 characters')]
     private string $password;
 
+    private ?string $rememberMe = null;
+
+    private string $_token;
+
+    public function getToken(): string
+    {
+        return $this->_token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->_token = $token;
+    }
+
+
+
+    public function getRememberMe(): ?string
+    {
+        return $this->rememberMe;
+    }
+
+    public function setRememberMe(?string $rememberMe): void
+    {
+        $this->rememberMe = $rememberMe;
+    }
+
     public function __construct()
     {
     }
@@ -37,6 +63,4 @@ class LoginUserDto
     {
         $this->password = $password;
     }
-
-
 }

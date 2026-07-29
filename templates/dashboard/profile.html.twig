@@ -22,17 +22,21 @@
 
                 <div class="profile-row">
                     <span>Email</span>
-                    <strong>john.doe@example.com</strong>
+                    <strong>{{ app.user.email }}</strong>
                 </div>
 
                 <div class="profile-row">
                     <span>Full Name</span>
-                    <strong>John Doe</strong>
+                    {% if app.user.names %}
+                        <strong>{{ app.user.names }}</strong>
+                    {% else %}
+                        <strong>Not set</strong>
+                    {% endif %}
                 </div>
 
                 <div class="profile-row">
                     <span>Member Since</span>
-                    <strong>24 Jul 2026</strong>
+                    <strong>{{ app.user.createdAt|date('d M Y') }}</strong>
                 </div>
 
             </section>
@@ -43,29 +47,53 @@
 
                 <div class="profile-row">
                     <span>Two-Factor Authentication</span>
-                    <strong class="status-disabled">Disabled</strong>
+                    {% if app.user.googleAuthenticatorEnabled %}
+                        <strong class="status-enabled">Enabled</strong>
+                    {% else %}
+                        <strong class="status-disabled">Disabled</strong>
+                    {% endif %}
                 </div>
 
                 <div class="profile-row">
                     <span>Password</span>
-                    <strong>••••••••••</strong>
+                    <strong class="status-enabled">Enabled</strong>
                 </div>
 
             </section>
 
             <div class="profile-actions">
-
+            <a href="{{ path(name:'app_edit_profile') }}">
                 <button class="auth-button">
-                    Edit Profile
+                    {{ ux_icon('lucide:user-pen', {
+                        class: 'nav-icon'
+                    }) }} Edit Profile
                 </button>
+            </a>
+                <a href="{{ path(name:'app_change_password') }}">
+                    <button class="auth-button">
+                        {{ ux_icon('lucide:key-round', {
+                            class: 'nav-icon'
+                        }) }} Change Password
+                    </button>
+                </a>
 
-                <button class="auth-button">
-                    Change Password
-                </button>
-
-                <button class="auth-button">
-                    Enable 2FA
-                </button>
+                {% if app.user.googleAuthenticatorEnabled %}
+                    <a href="{{ path(name: 'app_2fa_disable') }}">
+                        <button class="auth-button">
+                            {{ ux_icon('lucide:shield-off', {
+                                class: 'nav-icon'
+                            }) }} Disable 2FA
+                        </button>
+                    </a>
+                {% else %}
+                    <a href="{{ path(name: 'app_2fa_enable') }}">
+                        <button class="auth-button">
+                            {{ ux_icon('lucide:shield-check', {
+                                class: 'nav-icon'
+                            }) }} Enable 2FA
+                        </button>
+                    </a>
+                {% endif %}
 
             </div>
 

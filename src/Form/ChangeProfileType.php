@@ -2,39 +2,44 @@
 
 namespace App\Form;
 
-use App\Dto\Security\TwoFactorCodeDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TwoFactorType extends AbstractType
+class ChangeProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('code', TextType::class, [
-                'label' => 'Authentication code',
+            ->add('firstName', TextType::class, [
+                'label' => 'First Name',
                 'required' => true,
                 'attr' => [
-                    'class' => 'auth-code-input',
-                    'placeholder' => '123456',
-                    'autocomplete' => 'one-time-code',
-                    'maxlength' => '6',
+                    'placeholder' => 'First Name',
                 ],
             ])
-            ->add('verify', SubmitType::class, [
-                'label' => 'Verify code',
+            ->add('lastName', TextType::class, [
+                'label' => 'Last Name',
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Last Name',
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Save Changes',
                 'attr' => [
                     'class' => 'auth-button',
                 ],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            // Configure your form options here
         ]);
     }
 }

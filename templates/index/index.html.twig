@@ -18,7 +18,10 @@
         <div class="search">
             {{ form_start(form) }}
             {{ form_widget(form.name, {'attr': {'placeholder': 'Search city...'}}) }}
-            {{ form_widget(form.submit) }}
+            {{ form_widget(form.submit, {
+                label_html: true,
+                label: ux_icon('lucide:search') ~ ' Search'
+            }) }}
             <div class="form-error">
                 {{ form_errors(form.name) }}
                 {{ form_errors(form) }}

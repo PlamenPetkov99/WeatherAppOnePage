@@ -47,10 +47,25 @@
                     {{ form_errors(form) }}
                 </div>
 
-                {{ form_row(form.login) }}
+            <div class="remember-me">
+
+                {{ form_widget(form.rememberMe) }}
+
+                {{ form_label(form.rememberMe) }}
+
+            </div>
+
+            {{ form_errors(form.rememberMe) }}
+
+            {{ form_widget(form.login, {
+                label_html: true,
+                label: ux_icon('lucide:corner-down-left') ~ ' Login'
+            }) }}
 
             <a href="{{ path('app_index') }}" class="auth-secondary-button">
-                ← Back to home
+                {{ ux_icon('lucide:move-left', {
+                    class: 'nav-icon'
+                }) }} Back to home
             </a>
 
             {{ form_end(form) }}
@@ -60,7 +75,7 @@
 
                 Don't have an account?
 
-                <a href="{{ path('app_register') }}">
+                <a href="{{ path(name: 'app_register') }}">
                     Register
                 </a>
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Dto\Security\LoginUserDto;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,18 +45,23 @@ class LoginType extends AbstractType
                     'class' => 'auth-button',
                 ],
             ])
-        ;
+            ->add('rememberMe', CheckboxType::class, [
+                'label' => 'Remember me',
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => LoginUserDto::class,
             'data' => function (Options $options): array {
                 return [
                     'email' => $this->authenticationUtils->getLastUsername(),
                 ];
             },
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'login',
         ]);
     }
 }

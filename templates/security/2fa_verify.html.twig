@@ -36,10 +36,15 @@
 
             </div>
 
-            {{ form_row(form.verify) }}
+            {{ form_widget(form.verify, {
+                label_html: true,
+                label: ux_icon('lucide:corner-down-left') ~ ' Verify code'
+            }) }}
 
-            <a href="{{ path('app_login') }}" class="auth-secondary-button">
-                ← Back to login
+            <a href="{{ path('app_2fa_enable') }}" class="auth-secondary-button">
+                {{ ux_icon('lucide:move-left', {
+                    class: 'nav-icon'
+                }) }} Back to the QR
             </a>
 
             {{ form_end(form) }}

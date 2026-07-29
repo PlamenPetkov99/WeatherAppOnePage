@@ -21,7 +21,7 @@
             <div class="qr-container">
 
                 <img
-                    src="{{ qrCode }}"
+                    src="{{ qrCodeDataUri }}"
                     alt="Two-Factor Authentication QR Code"
                     class="qr-image"
                 >
@@ -35,7 +35,7 @@
             </span>
 
                 <div class="secret-key">
-                    {{ secret }}
+                    {{ secret|trim }}
                 </div>
 
                 <p class="manual-text">
@@ -46,12 +46,16 @@
 
             <div class="auth-link-actions">
 
-                <a href="{{ path('app_2fa_verify') }}" class="auth-button auth-link-button">
-                    Continue
+                <a href="{{ path(name:'app_2fa_enable_confirm') }}" class="auth-button">
+                    {{ ux_icon('lucide:move-right', {
+                        class: 'nav-icon'
+                    }) }} Continue
                 </a>
 
-                <a href="{{ path('app_profile') }}" class="auth-secondary-button auth-link-button">
-                    Cancel
+                <a href="{{ path('app_profile') }}" class="auth-secondary-button">
+                    {{ ux_icon('lucide:x', {
+                        class: 'nav-icon'
+                    }) }} Cancel
                 </a>
 
             </div>

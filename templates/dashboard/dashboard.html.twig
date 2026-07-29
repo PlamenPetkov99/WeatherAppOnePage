@@ -1,0 +1,360 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Dashboard - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard-wrapper">
+
+        <div class="dashboard-hero">
+
+            <div class="dashboard-hero-content">
+
+                <h1>
+
+                    {{ ux_icon('lucide:layout-dashboard', {
+                        class: 'dashboard-title-icon'
+                    }) }}
+
+                    Dashboard
+
+                </h1>
+
+                <p>
+
+                    Welcome back,
+                    <strong>{{ app.user.names ?? app.user.email }}</strong> 👋
+
+                </p>
+
+                <span class="dashboard-subtitle">
+
+            Your personal weather workspace.
+
+        </span>
+
+            </div>
+
+
+        </div>
+
+        <div class="dashboard-stats">
+
+            <div class="dashboard-stat-card">
+
+                {{ ux_icon('lucide:star', {
+                    class: 'dashboard-stat-icon'
+                }) }}
+
+                <span class="dashboard-stat-value">
+
+                12
+
+            </span>
+
+                <span class="dashboard-stat-label">
+
+                Saved Cities
+
+            </span>
+
+            </div>
+
+            <div class="dashboard-stat-card">
+
+                {{ ux_icon('lucide:map-pin', {
+                    class: 'dashboard-stat-icon'
+                }) }}
+
+                <span class="dashboard-stat-value">
+
+                Pleven
+
+            </span>
+
+                <span class="dashboard-stat-label">
+
+                Current Location
+
+            </span>
+
+            </div>
+
+            <div class="dashboard-stat-card">
+
+                {{ ux_icon('lucide:clock-3', {
+                    class: 'dashboard-stat-icon'
+                }) }}
+
+                <span class="dashboard-stat-value">
+
+                Europe/Sofia
+
+            </span>
+
+                <span class="dashboard-stat-label">
+
+                Time Zone
+
+            </span>
+
+            </div>
+
+            <div class="dashboard-stat-card">
+
+                {{ ux_icon('lucide:thermometer', {
+                    class: 'dashboard-stat-icon'
+                }) }}
+
+                <span class="dashboard-stat-value">
+
+                °C
+
+            </span>
+
+                <span class="dashboard-stat-label">
+
+                Temperature Unit
+
+            </span>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-main-grid">
+
+            <div class="dashboard-panel">
+
+                <div class="dashboard-panel-header">
+
+                    <h2>
+
+                        {{ ux_icon('lucide:map-pinned') }}
+
+                        Saved Cities
+
+                    </h2>
+
+                </div>
+
+                <div class="saved-cities">
+
+                    <div class="city-card">
+
+                        <div>
+
+                            <h3>📍 Sofia</h3>
+
+                            <span>28°C • Sunny</span>
+
+                        </div>
+
+                        <a href="#" class="city-button ">
+
+                            Open
+
+                        </a>
+
+                    </div>
+
+                    <div class="city-card">
+
+                        <div>
+
+                            <h3>📍 London</h3>
+
+                            <span>19°C • Rain</span>
+
+                        </div>
+
+                        <a href="#" class="city-button">
+
+                            Open
+
+                        </a>
+
+                    </div>
+
+                    <div class="city-card">
+
+                        <div>
+
+                            <h3>📍 Paris</h3>
+
+                            <span>24°C • Cloudy</span>
+
+                        </div>
+
+                        <a href="#" class="city-button">
+
+                            Open
+
+                        </a>
+
+                    </div>
+
+                    <div class="city-card">
+
+                        <div>
+
+                            <h3>📍 Rome</h3>
+
+                            <span>31°C • Sunny</span>
+
+                        </div>
+
+                        <a href="#" class="city-button">
+
+                            Open
+
+                        </a>
+
+                    </div>
+
+                    <div class="city-card">
+
+                        <div>
+
+                            <h3>📍 Tokyo</h3>
+
+                            <span>30°C • Sunny</span>
+
+                        </div>
+
+                        <a href="#" class="city-button">
+
+                            Open
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-panel">
+
+                <h2>
+
+                    {{ ux_icon('lucide:settings-2') }}
+
+                    Weather Preferences
+
+                </h2>
+
+                <p class="dashboard-panel-description">
+
+                    Customize how weather information is displayed throughout SkyCast.
+
+                </p>
+
+                <form>
+
+                    <div class="form-group">
+
+                        <label for="temperature">
+
+                            Temperature Unit
+
+                        </label>
+
+                        <select id="temperature">
+
+                            <option selected>
+
+                                Celsius (°C)
+
+                            </option>
+
+                            <option>
+
+                                Fahrenheit (°F)
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="wind">
+
+                            Wind Speed
+
+                        </label>
+
+                        <select id="wind">
+
+                            <option selected>
+
+                                km/h
+
+                            </option>
+
+                            <option>
+
+                                mph
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="time">
+
+                            Time Format
+
+                        </label>
+
+                        <select id="time">
+
+                            <option selected>
+
+                                24-hour
+
+                            </option>
+
+                            <option>
+
+                                12-hour
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <button
+                        class="auth-button"
+                        type="submit"
+                    >
+
+                        {{ ux_icon('lucide:save', {
+                            class: 'button-icon'
+                        }) }}
+
+                        <span>
+
+                        Save Preferences
+
+                    </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
