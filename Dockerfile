@@ -21,12 +21,15 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Allow .htaccess overrides and set SVG MIME type
-RUN echo '<Directory /var/www/html/public>' >> /etc/apache2/apache2.conf && \
-    echo '    AllowOverride All' >> /etc/apache2/apache2.conf && \
-    echo '    Require all granted' >> /etc/apache2/apache2.conf && \
-    echo '</Directory>' >> /etc/apache2/apache2.conf && \
-    echo 'AddType image/svg+xml .svg' >> /etc/apache2/apache2.conf
+# Add Directory configuration to 000-default.conf for .htaccess processing
+RUN sed -i "/DocumentRoot \/var\/www\/html\/public/a \\\n\
+    <Directory \/var\/www\/html\/public>\\\n\
+        AllowOverride All\\\n\
+        Require all granted\\\n\
+    <\/Directory>" /etc/apache2/sites-available/000-default.conf
+
+# Add SVG MIME type globally
+RUN echo 'AddType image/svg+xml .svg' >> /etc/apache2/apache2.conf
 
 # Copy application source code
 COPY . /var/www/html
@@ -45,13 +48,10 @@ RUN php bin/console cache:clear --env=prod
 # Set appropriate permissions for the web server
 RUN chown -R www-data:www-data /var/www/html
 
-
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-
 
 # Expose port 80
 EXPOSE 80
