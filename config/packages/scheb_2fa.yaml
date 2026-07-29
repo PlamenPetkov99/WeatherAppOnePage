@@ -1,0 +1,14 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+scheb_two_factor:
+
+    google:
+        enabled: true
+        server_name: SkyCast
+        issuer: SkyCast
+        digits: 6
+        leeway: 25
+        template: security/2fa_template.html.twig
+
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken

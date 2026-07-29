@@ -5,14 +5,15 @@ namespace App\Service;
 use App\Dto\CityDto;
 use App\ViewModel\GeoCodeViewModel;
 
-class CacheKeyFactory
+class CacheKeyFactoryService
 {
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     public function generateKeyForWeatherService(
-        GeoCodeViewModel $geo
-    ): string
-    {
+        GeoCodeViewModel $geo,
+    ): string {
         return sprintf(
             'weather_%s_%s',
             $geo->getLatitude(),
@@ -21,9 +22,8 @@ class CacheKeyFactory
     }
 
     public function generateKeyForGeoServiceFindByCity(
-        CityDto $cityDto
-    ): string
-    {
+        CityDto $cityDto,
+    ): string {
         return sprintf(
             'city_%s',
             $cityDto->getName(),
@@ -33,13 +33,11 @@ class CacheKeyFactory
     public function generateKeyForGeoServiceFindByCoordinates(
         float $lat,
         float $lng,
-    ): string
-    {
+    ): string {
         return sprintf(
             'weather_%s_%s',
             $lat,
             $lng
         );
     }
-
 }

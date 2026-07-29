@@ -21,22 +21,21 @@ final class IndexController extends AbstractController
         private readonly MapManager $mapManager,
         private readonly GeoService $geoService,
         private readonly WeatherService $weatherService,
-    ){}
+    ) {
+    }
 
     #[Route('/', name: 'app_index')]
     public function index(
         Request $request,
         #[MapQueryParameter] ?float $lat,
         #[MapQueryParameter] ?float $lng,
-    ): Response
-    {
+    ): Response {
         $cityDto = new CityDto();
         $form = $this->createForm(SearchWeatherType::class, $cityDto);
         $form->handleRequest($request);
         $weather = null;
 
-        if($form->isSubmitted() && $form->isValid()){ //fetch by city
-
+        if ($form->isSubmitted() && $form->isValid()) { // fetch by city
             try {
                 $geoCodeView = $this->geoService->findByCity($cityDto);
                 usleep(200000); // 200ms delay
@@ -44,11 +43,8 @@ final class IndexController extends AbstractController
             } catch (CityNotFoundException $e) {
                 $form->addError(new FormError($e->getMessage()));
             }
-
-        }
-        elseif ($lat !== null && $lng !== null){ //fetch by lat and lng
-
-            $geoCodeView = $this->geoService->findByCoordinates($lat,$lng);
+        } elseif (null !== $lat && null !== $lng) { // fetch by lat and lng
+            $geoCodeView = $this->geoService->findByCoordinates($lat, $lng);
             usleep(200000); // 200ms delay
             $weather = $this->weatherService->getWeather($geoCodeView);
 
@@ -59,6 +55,6 @@ final class IndexController extends AbstractController
             'form' => $form,
             'weather' => $weather,
             'map' => $this->mapManager->buildMap(),
-        ], new Response(null,200));
+        ], new Response(null, 200));
     }
 }

@@ -1,0 +1,12 @@
+endroid_qr_code:
+    builders:
+        default:
+            writer: Endroid\QrCode\Writer\PngWriter
+            data: 'This is customized QR code'
+            logo_path: '%kernel.project_dir%/public/logo/logo.svg'
+            logo_resize_to_width: 150
+            logo_punchout_background: true
+            label_text: 'SkyCast Auth QR Code'
+            label_font_path: '%kernel.project_dir%/vendor/endroid/qr-code/assets/noto_sans.otf'
+            label_font_size: 20
+            label_alignment: 'center'

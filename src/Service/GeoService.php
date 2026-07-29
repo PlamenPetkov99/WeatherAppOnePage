@@ -22,15 +22,16 @@ class GeoService
         private readonly RequestInputDataDtoBuilder   $requestInputDataDtoBuilder,
         private readonly ParseService                 $parser,
         private readonly ValidatorInterface           $validator,
-        private readonly CacheKeyFactory              $cacheKeyFactory,
+        private readonly CacheKeyFactoryService       $cacheKeyFactory,
         private readonly CacheInterface               $cache,
-    ){}
+    ) {
+    }
+
     public function findByCity(CityDto $cityDto): GeoCodeViewModel
     {
         return $this->cache->get(
             $this->cacheKeyFactory->generateKeyForGeoServiceFindByCity($cityDto),
-            function (ItemInterface $item) use ($cityDto)
-            {
+            function (ItemInterface $item) use ($cityDto) {
                 $item->expiresAfter(300);
 
                 $location = $this->geoCodeRequestManager->get(
@@ -58,9 +59,8 @@ class GeoService
 
     public function findByCoordinates(
         float $lat,
-        float $lng
-    ): GeoCodeViewModel
-    {
+        float $lng,
+    ): GeoCodeViewModel {
         $reversedLocation = $this->reverseGeoCodeRequestManager->get(
             $this->requestInputDataDtoBuilder
                 ->withLatitude($lat)
@@ -70,5 +70,4 @@ class GeoService
 
         return GeoCodeViewBuilder::build($reversedLocation->toArray());
     }
-
 }

@@ -21,6 +21,89 @@
         {% endif %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <div class="bg"></div>
+
+        <div class="container">
+
+            <div class="flash-container">
+
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+
+            <header class="skycast-header">
+
+                <div class="logo">
+                    <a href="{{ path('app_index') }}">
+                        <img src="/logo/logo.svg" alt="weather icon">
+                    </a>
+                </div>
+
+
+                <nav class="skycast-navigation">
+
+                    <a class="navbar-link" href="{{ path(name:'app_index') }}">
+                        {{ ux_icon('lucide:house', {
+                            class: 'nav-icon'
+                        }) }} Home
+                    </a>
+
+                    {% if app.user %}
+
+                        <a class="navbar-link" href="{{ path(name:'app_profile') }}">
+                            {{ ux_icon('lucide:user', {
+                                class: 'nav-icon'
+                            }) }} Profile
+                        </a>
+
+                        <a class="navbar-link" href="{{ path(name: 'app_dashboard_view') }}">
+                            {{ ux_icon('lucide:layout-dashboard', {
+                                class: 'nav-icon'
+                            }) }} Dashboard
+                        </a>
+
+                        <a class="navbar-link navbar-primary" href="{{ path(name: 'app_logout') }}">
+                            {{ ux_icon('lucide:log-out', {
+                                class: 'nav-icon'
+                            }) }} Logout
+                        </a>
+
+                    {% else %}
+
+                        <a class="navbar-link" href="{{ path(name: 'app_login') }}">
+                            {{ ux_icon('lucide:log-in', {
+                                class: 'nav-icon'
+                            }) }} Login
+                        </a>
+
+                        <a class="navbar-link navbar-primary" href="{{ path(name: 'app_register') }}">
+                            {{ ux_icon('lucide:user-plus', {
+                                class: 'nav-icon'
+                            }) }} Register
+                        </a>
+
+                    {% endif %}
+
+                </nav>
+
+            </header>
+
+
+            <main class="skycast-content">
+
+                {% block body %}
+
+                {% endblock %}
+
+            </main>
+
+        </div>
     </body>
 </html>

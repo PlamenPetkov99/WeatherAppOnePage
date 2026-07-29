@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    My Profile - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="profile-wrapper">
+
+        <div class="profile-card">
+
+            <h1>👤 My Profile</h1>
+
+            <p class="profile-subtitle">
+                Manage your SkyCast account
+            </p>
+
+            <section class="profile-section">
+
+                <h2>Account Information</h2>
+
+                <div class="profile-row">
+                    <span>Email</span>
+                    <strong>{{ app.user.email }}</strong>
+                </div>
+
+                <div class="profile-row">
+                    <span>Full Name</span>
+                    {% if app.user.names %}
+                        <strong>{{ app.user.names }}</strong>
+                    {% else %}
+                        <strong>Not set</strong>
+                    {% endif %}
+                </div>
+
+                <div class="profile-row">
+                    <span>Member Since</span>
+                    <strong>{{ app.user.createdAt|date('d M Y') }}</strong>
+                </div>
+
+            </section>
+
+            <section class="profile-section">
+
+                <h2>Security</h2>
+
+                <div class="profile-row">
+                    <span>Two-Factor Authentication</span>
+                    {% if app.user.googleAuthenticatorEnabled %}
+                        <strong class="status-enabled">Enabled</strong>
+                    {% else %}
+                        <strong class="status-disabled">Disabled</strong>
+                    {% endif %}
+                </div>
+
+                <div class="profile-row">
+                    <span>Password</span>
+                    <strong class="status-enabled">Enabled</strong>
+                </div>
+
+            </section>
+
+            <div class="profile-actions">
+            <a href="{{ path(name:'app_edit_profile') }}">
+                <button class="auth-button">
+                    {{ ux_icon('lucide:user-pen', {
+                        class: 'nav-icon'
+                    }) }} Edit Profile
+                </button>
+            </a>
+                <a href="{{ path(name:'app_change_password') }}">
+                    <button class="auth-button">
+                        {{ ux_icon('lucide:key-round', {
+                            class: 'nav-icon'
+                        }) }} Change Password
+                    </button>
+                </a>
+
+                {% if app.user.googleAuthenticatorEnabled %}
+                    <a href="{{ path(name: 'app_2fa_disable') }}">
+                        <button class="auth-button">
+                            {{ ux_icon('lucide:shield-off', {
+                                class: 'nav-icon'
+                            }) }} Disable 2FA
+                        </button>
+                    </a>
+                {% else %}
+                    <a href="{{ path(name: 'app_2fa_enable') }}">
+                        <button class="auth-button">
+                            {{ ux_icon('lucide:shield-check', {
+                                class: 'nav-icon'
+                            }) }} Enable 2FA
+                        </button>
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -20,7 +20,7 @@ class WeatherService
         private readonly ParseService               $parser,
         private readonly RequestInputDataDtoBuilder $requestInputDataDtoBuilder,
         private readonly WeatherViewModelFactory    $weatherFactory,
-        private readonly CacheKeyFactory            $cacheKeyFactory,
+        private readonly CacheKeyFactoryService     $cacheKeyFactory,
         private readonly CacheInterface             $cache,
     ){}
 

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Two-Factor Authentication - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-wrapper">
+
+        <div class="auth-card auth-card-2fa">
+
+            <div class="auth-icon">🔐</div>
+
+            <h1>Two-Factor Authentication</h1>
+
+            <p class="auth-subtitle">
+                Enter the 6-digit code from your Authenticator app to continue.
+            </p>
+
+            {% if authenticationError is defined and authenticationError %}
+                <div class="form-global-error">
+                    {{ authenticationError|trans(authenticationError.messageData, 'SchebTwoFactorBundle') }}
+                </div>
+            {% endif %}
+
+            <form method="post" action="/2fa_check">
+
+                <div class="form-group">
+
+                    <label for="code">
+                        Authentication code
+                    </label>
+
+                    <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        class="auth-code-input"
+                        placeholder="123456"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+                {% if csrf_token is defined %}
+                    <input
+                        type="hidden"
+                        name="_csrf_token"
+                        value="{{ csrf_token }}"
+                    >
+                {% endif %}
+
+                {% if displayTrustedOption is defined and displayTrustedOption %}
+                    <div class="form-group-checkbox">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="_trusted"
+                            >
+
+                            Trust this device
+
+                        </label>
+
+                    </div>
+                {% endif %}
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    {{ ux_icon('lucide:corner-down-left', {
+                        class: 'nav-icon'
+                    }) }} Verify code
+                </button>
+
+            </form>
+
+            <a href="{{ path('app_2fa_enable') }}" class="auth-secondary-button">
+                {{ ux_icon('lucide:move-left', {
+                    class: 'nav-icon'
+                }) }} Back to the QR
+            </a>
+
+            <div class="auth-help">
+
+                <p>
+                    Open <strong>Google Authenticator</strong>,
+                    <strong>Microsoft Authenticator</strong>,
+                    or <strong>Authy</strong> and enter the current code.
+                </p>
+
+                <p class="auth-help-small">
+                    The code changes every 30 seconds.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

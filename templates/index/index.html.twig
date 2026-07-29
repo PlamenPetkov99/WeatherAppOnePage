@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Weather Dashboard Version_1.0{% endblock %}
+{% block title %}SkyCast{% endblock %}
 
 {% block body %}
 
@@ -9,12 +9,7 @@
     <div class="container">
 
         <header class="top">
-            <div class="logo">
-              <a href="{{ path('app_index') }}">
-                <img src="/logo/logo.svg" alt="weather icon">
-              </a>
-            </div>
-            <h1>Weather Dashboard Version 1.0</h1>
+            <h1>General Weather Dashboard</h1>
             <p>Clean, fast weather overview</p>
         </header>
 
@@ -23,7 +18,10 @@
         <div class="search">
             {{ form_start(form) }}
             {{ form_widget(form.name, {'attr': {'placeholder': 'Search city...'}}) }}
-            {{ form_widget(form.submit) }}
+            {{ form_widget(form.submit, {
+                label_html: true,
+                label: ux_icon('lucide:search') ~ ' Search'
+            }) }}
             <div class="form-error">
                 {{ form_errors(form.name) }}
                 {{ form_errors(form) }}

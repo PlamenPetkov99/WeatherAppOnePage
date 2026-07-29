@@ -2,7 +2,6 @@
 
 namespace App\Manager;
 
-
 use App\Dto\RequestInputDataDto;
 use App\Interface\BaseHttpClientInterface;
 use Symfony\Component\DependencyInjection\Attribute\Target;
@@ -14,12 +13,13 @@ class GeoCodeRequestManager implements BaseHttpClientInterface
 {
     public function __construct(
         #[Target('geo_code.client')]
-        private readonly HttpClientInterface $geoCodeClient
-    ){}
+        private readonly HttpClientInterface $geoCodeClient,
+    ) {
+    }
+
     public function get(
-        RequestInputDataDto $data
-    ): ResponseInterface
-    {
+        RequestInputDataDto $data,
+    ): ResponseInterface {
         return $this->geoCodeClient->request(
             Request::METHOD_GET,
             '/v1/search',
@@ -28,8 +28,8 @@ class GeoCodeRequestManager implements BaseHttpClientInterface
                     'name' => $data->getCity(),
                     'count' => 1,
                     'language' => 'en',
-                    'format' => 'json'
-                ]
+                    'format' => 'json',
+                ],
             ]
         );
     }

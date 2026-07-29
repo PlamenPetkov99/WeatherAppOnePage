@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit Profile - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-wrapper">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                👤
+            </div>
+
+            <h1>
+                Edit Profile
+            </h1>
+
+            <p class="auth-subtitle">
+                Update your personal information. Your email address and security settings can be managed separately.
+            </p>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+
+                {{ form_label(form.firstName) }}
+
+                {{ form_widget(form.firstName) }}
+
+                {{ form_errors(form.firstName) }}
+
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.lastName) }}
+
+                {{ form_widget(form.lastName) }}
+
+                {{ form_errors(form.lastName) }}
+
+            </div>
+
+            <div class="profile-info-box">
+
+                <div class="profile-info-row">
+
+                    {{ ux_icon('lucide:mail', {
+                        class: 'profile-info-icon'
+                    }) }}
+
+                    <div>
+
+                        <strong>Email address</strong>
+
+                        <p>{{ app.user.email }}</p>
+
+                    </div>
+
+                </div>
+
+                <div class="profile-info-row">
+
+                    {{ ux_icon('lucide:calendar', {
+                        class: 'profile-info-icon'
+                    }) }}
+
+                    <div>
+
+                        <strong>Member since</strong>
+
+                        <p>{{ app.user.createdAt|date('d M Y') }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{ form_widget(form.submit, {
+                label_html: true,
+                label: ux_icon('lucide:save') ~ ' Save Changes'
+            }) }}
+
+            {{ form_end(form) }}
+
+            <a href="{{ path(name:'app_profile') }}" class="auth-secondary-button">
+                {{ ux_icon('lucide:move-left', {
+                    class: 'nav-icon'
+                }) }} Back to Profile
+            </a>
+
+        </div>
+
+    </div>
+
+{% endblock %}

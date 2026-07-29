@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Two-Factor Authentication - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-wrapper">
+
+
+        <div class="auth-card auth-card-2fa">
+
+            <div class="auth-icon">🔐</div>
+
+            <h1>Two-Factor Authentication</h1>
+
+            <p class="auth-subtitle">
+                Enter the 6-digit code from your Authenticator app to continue.
+            </p>
+
+            {# Global form errors #}
+            <div class="form-global-error">
+                {{ form_errors(form) }}
+            </div>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+
+                {{ form_label(form.code) }}
+
+                {{ form_widget(form.code) }}
+
+                {{ form_errors(form.code) }}
+
+            </div>
+
+            {{ form_widget(form.verify, {
+                label_html: true,
+                label: ux_icon('lucide:corner-down-left') ~ ' Verify code'
+            }) }}
+
+            <a href="{{ path('app_2fa_enable') }}" class="auth-secondary-button">
+                {{ ux_icon('lucide:move-left', {
+                    class: 'nav-icon'
+                }) }} Back to the QR
+            </a>
+
+            {{ form_end(form) }}
+
+            <div class="auth-help">
+
+                <p>Open <strong>Google Authenticator</strong>, <strong>Microsoft Authenticator</strong>, or <strong>Authy</strong> and enter the current code.</p>
+
+                <p class="auth-help-small">
+                    The code changes every 30 seconds.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
