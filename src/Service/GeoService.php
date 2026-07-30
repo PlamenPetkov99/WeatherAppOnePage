@@ -48,8 +48,6 @@ class GeoService
                     throw new CityNotFoundException('City is not found.');
                 }
 
-                dump('im in the callback');
-
                 return $this->parser->parseFromArray(
                     $geoResponseDto->getResults(),
                     GeoCodeViewModel::class);
