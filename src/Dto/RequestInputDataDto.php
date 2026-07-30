@@ -8,7 +8,16 @@ class RequestInputDataDto
         private ?float $latitude,
         private ?float $longtitude,
         private ?string $city,
-    ){}
+        private ?string $ipAddress,
+    ) {
+    }
+
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+
 
     public function getLatitude(): ?float
     {
@@ -24,6 +33,4 @@ class RequestInputDataDto
     {
         return $this->city;
     }
-
-
 }

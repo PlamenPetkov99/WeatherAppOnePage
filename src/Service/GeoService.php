@@ -17,13 +17,13 @@ use Symfony\Contracts\Cache\ItemInterface;
 class GeoService
 {
     public function __construct(
-        private readonly GeoCodeRequestManager        $geoCodeRequestManager,
+        private readonly GeoCodeRequestManager $geoCodeRequestManager,
         private readonly ReverseGeoCodeRequestManager $reverseGeoCodeRequestManager,
-        private readonly RequestInputDataDtoBuilder   $requestInputDataDtoBuilder,
-        private readonly ParseService                 $parser,
-        private readonly ValidatorInterface           $validator,
-        private readonly CacheKeyFactoryService       $cacheKeyFactory,
-        private readonly CacheInterface               $cache,
+        private readonly RequestInputDataDtoBuilder $requestInputDataDtoBuilder,
+        private readonly ParseService $parser,
+        private readonly ValidatorInterface $validator,
+        private readonly CacheKeyFactoryService $cacheKeyFactory,
+        private readonly CacheInterface $cache,
     ) {
     }
 

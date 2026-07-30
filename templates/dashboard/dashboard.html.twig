@@ -70,7 +70,7 @@
 
                 <span class="dashboard-stat-value">
 
-                Pleven
+                {{ ipLocationViewModel.city }}
 
             </span>
 
@@ -90,7 +90,7 @@
 
                 <span class="dashboard-stat-value">
 
-                Europe/Sofia
+                {{ ipLocationViewModel.timezone }}
 
             </span>
 
@@ -104,19 +104,19 @@
 
             <div class="dashboard-stat-card">
 
-                {{ ux_icon('lucide:thermometer', {
+                {{ ux_icon('lucide:map-pinned', {
                     class: 'dashboard-stat-icon'
                 }) }}
 
                 <span class="dashboard-stat-value">
 
-                °C
+                {{ ipLocationViewModel.countryName }}
 
             </span>
 
                 <span class="dashboard-stat-label">
 
-                Temperature Unit
+                Country Name
 
             </span>
 
@@ -132,7 +132,7 @@
 
                     <h2>
 
-                        {{ ux_icon('lucide:map-pinned') }}
+                        {{ ux_icon('lucide:map-pin') }}
 
                         Saved Cities
 
@@ -146,91 +146,19 @@
 
                         <div>
 
-                            <h3>📍 Sofia</h3>
-
-                            <span>28°C • Sunny</span>
-
+                            <h3>Sofia</h3>
+                            <span>COUNTRY NAME</span>
                         </div>
 
                         <a href="#" class="city-button ">
 
-                            Open
+                            View
 
                         </a>
 
                     </div>
 
-                    <div class="city-card">
 
-                        <div>
-
-                            <h3>📍 London</h3>
-
-                            <span>19°C • Rain</span>
-
-                        </div>
-
-                        <a href="#" class="city-button">
-
-                            Open
-
-                        </a>
-
-                    </div>
-
-                    <div class="city-card">
-
-                        <div>
-
-                            <h3>📍 Paris</h3>
-
-                            <span>24°C • Cloudy</span>
-
-                        </div>
-
-                        <a href="#" class="city-button">
-
-                            Open
-
-                        </a>
-
-                    </div>
-
-                    <div class="city-card">
-
-                        <div>
-
-                            <h3>📍 Rome</h3>
-
-                            <span>31°C • Sunny</span>
-
-                        </div>
-
-                        <a href="#" class="city-button">
-
-                            Open
-
-                        </a>
-
-                    </div>
-
-                    <div class="city-card">
-
-                        <div>
-
-                            <h3>📍 Tokyo</h3>
-
-                            <span>30°C • Sunny</span>
-
-                        </div>
-
-                        <a href="#" class="city-button">
-
-                            Open
-
-                        </a>
-
-                    </div>
 
                 </div>
 
