@@ -40,4 +40,13 @@ class CacheKeyFactoryService
             $lng
         );
     }
+
+    public function generateKeyForIpLocator(
+        string $ipAddress,
+    ): string {
+        return sprintf(
+            'ip_%s',
+            $ipAddress
+        );
+    }
 }

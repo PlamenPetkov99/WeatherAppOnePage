@@ -9,3 +9,5 @@ framework:
                 base_uri: 'https://geocoding-api.open-meteo.com'
             auth.client:
                 base_uri: 'https://authentication-system-xdgd.onrender.com'
+            ip_locator.client:
+                base_uri: 'https://ipapi.co'
