@@ -47,6 +47,17 @@ body {
     margin-top: 5px;
 }
 
+/* map hints */
+.map-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    text-align: center;
+}
+
 /* search */
 .search {
     display: flex;
@@ -149,10 +160,37 @@ body {
 
 .meta {
     display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    font-size: 0.85rem;
-    opacity: 0.7;
+    align-items: center;
+}
+
+.meta > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta > div:first-child {
+    justify-content: flex-start;
+}
+
+.meta > div:nth-child(2) {
+    justify-content: center;
+}
+
+.meta > div:last-child {
+    justify-content: flex-end;
+}
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 /* small cards */
@@ -1437,6 +1475,10 @@ body {
     font-size: .95rem;
 
 }
+
+/* save button */
+
+
 
 /* responsive */
 @media (max-width: 800px) {

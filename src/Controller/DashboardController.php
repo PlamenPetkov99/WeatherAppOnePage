@@ -20,7 +20,7 @@ class DashboardController extends AbstractController
     ) {
         $ipAddress = $request->getClientIp();
 
-        $ipLocationViewModel = $this->ipService->findCityByIp('8.8.8.8');
+        $ipLocationViewModel = $this->ipService->findCityByIp('8.8.8.8'); // TODO REMOVE THE HARDCODED IP ADDRESS
 
         return $this->render('dashboard/dashboard.html.twig', [
             'ipLocationViewModel' => $ipLocationViewModel,
