@@ -63,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @var Collection<int, SavedCity>
      */
-    #[ORM\OneToMany(targetEntity: SavedCity::class, mappedBy: 'userId', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SavedCity::class, mappedBy: 'userId', cascade: ['persist'], orphanRemoval: true)]
     private Collection $savedCities;
 
     public function __construct()
@@ -278,4 +278,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
         return $this;
     }
+
 }

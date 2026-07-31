@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Dto\CityDto;
+use App\Entity\User;
 use App\Exception\CityNotFoundException;
 use App\Form\SearchWeatherType;
 use App\Manager\MapManager;
+use App\Repository\SavedCityRepository;
 use App\Service\GeoService;
 use App\Service\WeatherService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class IndexController extends AbstractController
 {
@@ -21,6 +24,7 @@ final class IndexController extends AbstractController
         private readonly MapManager $mapManager,
         private readonly GeoService $geoService,
         private readonly WeatherService $weatherService,
+        private readonly SavedCityRepository $savedCityRepository,
     ) {
     }
 
@@ -51,10 +55,20 @@ final class IndexController extends AbstractController
             $form->get('name')->setData($geoCodeView->getName());
         }
 
+        $isSaved = false;
+        if ($this->getUser() instanceof UserInterface) {
+            $isSaved = $this->savedCityRepository->isSaved(
+                $this->getUser(),
+                $weather?->getGeoCodeViewModel()->getName(),
+                $weather?->getGeoCodeViewModel()->getCountry()
+            );
+        }
+
         return $this->render('index/index.html.twig', [
             'form' => $form,
             'weather' => $weather,
             'map' => $this->mapManager->buildMap(),
+            'isSaved' => $isSaved,
         ], new Response(null, 200));
     }
 }

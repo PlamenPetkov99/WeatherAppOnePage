@@ -28,6 +28,7 @@
             </div>
             {{ form_end(form) }}
         </div>
+
         {% if weather %}
                 <div class="card map-card">
                     {{ ux_map(
@@ -53,9 +54,84 @@
 
             <section class="grid">
                 <div class="card main">
-                    <div class="city">{{ weather.geoCodeViewModel.name }}</div>
-                    <div class="temp">{{ weather.currentWeatherDto.temperature|number_format(1) }}{{ weather.currentWeatherUnitsDto.temperatureUnit }}</div>
-                    <div class="desc">{{ weather.currentWeatherDto.description }}</div>
+                    <div class="city-header">
+
+                        <div class="city">
+                            {{ ux_icon('lucide:map-pin', {
+                                class: 'city-icon'
+                            }) }}
+
+                            {{ weather.geoCodeViewModel.name }}
+                        </div>
+
+                            {% if app.user %}
+                                <form
+                                    method="post"
+                                    action="{{ path('app_saved_city_save') }}"
+                                    data-turbo="false"
+
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="cityName"
+                                        value="{{ weather.geoCodeViewModel.name }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="countryName"
+                                        value="{{ weather.geoCodeViewModel.country }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="latitude"
+                                        value="{{ weather.geoCodeViewModel.latitude }}"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="longitude"
+                                        value="{{ weather.geoCodeViewModel.longitude }}"
+                                    >
+
+                                    <button
+                                        class="favorite-city-button"
+                                        type="submit"
+                                    >
+
+                                        {% if isSaved %}
+                                        {{ ux_icon(
+                                            'heroicons:star-solid',
+                                            {
+                                                class:'favorite-icon'
+                                            }
+                                        ) }}
+                                        {% else %}
+                                            {{ ux_icon(
+                                                'heroicons:star',
+                                                {
+                                                    class:'favorite-icon'
+                                                }
+                                            ) }}
+                                        {% endif %}
+
+                                    </button>
+
+                                </form>
+                            {% endif %}
+                    </div>
+
+
+                    <div class="temp">
+                        {{ weather.currentWeatherDto.temperature|number_format(1) }}{{ weather.currentWeatherUnitsDto.temperatureUnit }}
+                    </div>
+
+
+                    <div class="desc">
+                        {{ weather.currentWeatherDto.description }}
+                    </div>
 
                     <div class="meta">
 

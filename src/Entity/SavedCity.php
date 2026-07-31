@@ -45,6 +45,12 @@ class SavedCity
     #[ORM\Column(name:'created_at')]
     private ?\DateTimeImmutable $createdAt = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable('now');
+    }
+
+
     public function getId(): ?Uuid
     {
         return $this->id;

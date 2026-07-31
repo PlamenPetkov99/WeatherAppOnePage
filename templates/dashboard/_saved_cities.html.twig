@@ -1,0 +1,60 @@
+<div class="saved-cities">
+
+    {% for city in savedCities %}
+
+        <div class="city-card">
+
+            <div class="city-info">
+
+                <h3>
+                    {{ city.cityName }}
+                </h3>
+
+                <span>
+                    {{ city.countryName }}
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ path('app_index', {
+                    lat: city.latitude,
+                    lng: city.longitude
+                }) }}"
+                class="city-button"
+                data-turbo-frame="_top"
+            >
+                View
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-cities">
+
+            <p>
+                You don't have saved cities yet.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% if savedCities.haveToPaginate %}
+
+    <div class="saved-cities-pagination">
+
+        {% include 'dashboard/_pagination.html.twig' with {
+            pagination: savedCities,
+            route: 'app_dashboard_view',
+            turbo_frame: 'saved-cities'
+        } %}
+
+    </div>
+
+{% endif %}

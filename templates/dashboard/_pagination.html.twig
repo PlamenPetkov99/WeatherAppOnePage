@@ -1,0 +1,41 @@
+<nav class="pagination">
+
+    {% if pagination.hasPreviousPage %}
+
+        <a
+            href="{{ path(route, {page: pagination.previousPage}) }}"
+            class="pagination-button"
+            data-turbo-frame="{{ turbo_frame }}"
+        >
+            {{ ux_icon('lucide:chevron-left') }}
+        </a>
+
+    {% endif %}
+
+
+    {% for page in 1..pagination.nbPages %}
+
+        <a
+            href="{{ path(route, {page: page}) }}"
+            class="pagination-button {{ page == pagination.currentPage ? 'active' : '' }}"
+            data-turbo-frame="{{ turbo_frame }}"
+        >
+            {{ page }}
+        </a>
+
+    {% endfor %}
+
+
+    {% if pagination.hasNextPage %}
+
+        <a
+            href="{{ path(route, {page: pagination.nextPage}) }}"
+            class="pagination-button"
+            data-turbo-frame="{{ turbo_frame }}"
+        >
+            {{ ux_icon('lucide:chevron-right') }}
+        </a>
+
+    {% endif %}
+
+</nav>
