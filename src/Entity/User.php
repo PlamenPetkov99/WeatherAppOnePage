@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -49,9 +51,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $temperatureUnit = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $windSpeedUnit = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $timeFormat = null;
+
+    /**
+     * @var Collection<int, SavedCity>
+     */
+    #[ORM\OneToMany(targetEntity: SavedCity::class, mappedBy: 'userId', cascade: ['persist'], orphanRemoval: true)]
+    private Collection $savedCities;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTimeImmutable('now'));
+        $this->savedCities = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -194,4 +212,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         }
         return null;
     }
+
+    public function getTemperatureUnit(): ?string
+    {
+        return $this->temperatureUnit;
+    }
+
+    public function setTemperatureUnit(?string $temperatureUnit): static
+    {
+        $this->temperatureUnit = $temperatureUnit;
+
+        return $this;
+    }
+
+    public function getWindSpeedUnit(): ?string
+    {
+        return $this->windSpeedUnit;
+    }
+
+    public function setWindSpeedUnit(?string $windSpeedUnit): static
+    {
+        $this->windSpeedUnit = $windSpeedUnit;
+
+        return $this;
+    }
+
+    public function getTimeFormat(): ?string
+    {
+        return $this->timeFormat;
+    }
+
+    public function setTimeFormat(?string $timeFormat): static
+    {
+        $this->timeFormat = $timeFormat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SavedCity>
+     */
+    public function getSavedCities(): Collection
+    {
+        return $this->savedCities;
+    }
+
+    public function addSavedCity(SavedCity $savedCity): static
+    {
+        if (!$this->savedCities->contains($savedCity)) {
+            $this->savedCities->add($savedCity);
+            $savedCity->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSavedCity(SavedCity $savedCity): static
+    {
+        if ($this->savedCities->removeElement($savedCity)) {
+            // set the owning side to null (unless already changed)
+            if ($savedCity->getUserId() === $this) {
+                $savedCity->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -18,14 +18,14 @@
                         class: 'dashboard-title-icon'
                     }) }}
 
-                    Dashboard
+                    Personal Dashboard
 
                 </h1>
 
                 <p>
 
                     Welcome back,
-                    <strong>{{ app.user.names ?? app.user.email }}</strong> 👋
+                    <strong>{{ app.user.names ?? app.user.email }}</strong>
 
                 </p>
 
@@ -50,14 +50,12 @@
 
                 <span class="dashboard-stat-value">
 
-                12
+                {{ savedCities.count }}
 
             </span>
 
                 <span class="dashboard-stat-label">
-
                 Saved Cities
-
             </span>
 
             </div>
@@ -124,6 +122,8 @@
 
         </div>
 
+        {% include 'dashboard/_current_weather.html.twig' %}
+
         <div class="dashboard-main-grid">
 
             <div class="dashboard-panel">
@@ -140,27 +140,11 @@
 
                 </div>
 
-                <div class="saved-cities">
+                <turbo-frame id="saved-cities">
 
-                    <div class="city-card">
+                    {% include 'dashboard/_saved_cities.html.twig' %}
 
-                        <div>
-
-                            <h3>Sofia</h3>
-                            <span>COUNTRY NAME</span>
-                        </div>
-
-                        <a href="#" class="city-button ">
-
-                            View
-
-                        </a>
-
-                    </div>
-
-
-
-                </div>
+                </turbo-frame>
 
             </div>
 

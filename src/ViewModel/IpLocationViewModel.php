@@ -7,7 +7,9 @@ class IpLocationViewModel
     private ?string $city;
     private ?string $countryName;
     private ?string $timezone;
-
+    private ?float $longitude;
+    private ?float $latitude;
+    private ?string $countryCode;
     public function __construct()
     {
     }
@@ -41,4 +43,36 @@ class IpLocationViewModel
     {
         $this->timezone = $timezone;
     }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(?string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+
 }
