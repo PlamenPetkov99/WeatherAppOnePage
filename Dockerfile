@@ -2,11 +2,25 @@ FROM php:8.4-apache
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
-    libzip-dev zip unzip libicu-dev libcurl4-openssl-dev libpq-dev \
-    && docker-php-ext-install zip intl curl pdo_pgsql \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && rm -rf /var/lib/apt/lists/*
+    libzip-dev \
+    zip \
+    unzip \
+    libicu-dev \
+    libcurl4-openssl-dev \
+    libpq-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install \
+        gd \
+        zip \
+        intl \
+        curl \
+        pdo_pgsql \
+ && pecl install redis \
+ && docker-php-ext-enable redis \
+ && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache modules
 RUN a2enmod rewrite && a2enmod headers

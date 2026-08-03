@@ -172,6 +172,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spomky-labs/otphp" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dama/doctrine-test-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/ux-icons" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/scheb/2fa-backup-code" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

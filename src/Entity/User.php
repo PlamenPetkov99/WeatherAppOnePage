@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -16,7 +17,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, BackupCodeInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -66,10 +67,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(targetEntity: SavedCity::class, mappedBy: 'userId', cascade: ['persist'], orphanRemoval: true)]
     private Collection $savedCities;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $backupCodes = [];
+
     public function __construct()
     {
+
         $this->setCreatedAt(new \DateTimeImmutable('now'));
         $this->savedCities = new ArrayCollection();
+        $this->backupCodes = [];
+        $this->windSpeedUnit = 'km/h';
+        $this->temperatureUnit = 'Celsius';
+        $this->timeFormat = '24h';
+
     }
 
     public function getId(): ?Uuid
@@ -210,6 +220,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         if ($this->firstName && $this->lastName) {
             return $this->firstName.' '.$this->lastName;
         }
+
         return null;
     }
 
@@ -279,4 +290,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this;
     }
 
+    public function isBackupCode(string $code): bool
+    {
+        return in_array($code, $this->backupCodes, true);
+    }
+
+    public function invalidateBackupCode(string $code): void
+    {
+        $key = array_search($code, $this->backupCodes, true);
+        if (false !== $key) {
+            unset($this->backupCodes[$key]);
+        }
+    }
+
+    public function addBackUpCode(string $backUpCode): void
+    {
+        if (!in_array($backUpCode, $this->backupCodes, true)) {
+            $this->backupCodes[] = $backUpCode;
+        }
+    }
+
+    public function getBackupCodes(): ?array
+    {
+        return $this->backupCodes;
+    }
+
+    public function setBackupCodes(?array $backupCodes): static
+    {
+        $this->backupCodes = $backupCodes;
+
+        return $this;
+    }
 }
