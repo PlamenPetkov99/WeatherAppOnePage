@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Backup Codes - SkyCast
+{% endblock %}
+
+{% block body %}
+
+    <div class="backup-wrapper">
+
+        <div class="backup-card">
+
+            <div class="backup-header">
+
+                {{ ux_icon('lucide:shield-check', {
+                    class: 'backup-icon'
+                }) }}
+
+                <h1>Two-Factor Authentication Enabled</h1>
+
+                <p>
+
+                    Great! Your account is now protected with two-factor authentication.
+
+                </p>
+
+            </div>
+
+            <div class="backup-warning">
+
+                {{ ux_icon('lucide:triangle-alert', {
+                    class: 'warning-icon'
+                }) }}
+
+                <div>
+
+                    <strong>Save these backup codes now.</strong>
+
+                    <p>
+                        Each code can only be used once if you lose access to your authenticator app.
+                        These codes will <strong>never be shown again</strong>.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="backup-codes">
+
+                {% for code in backupCodes %}
+
+                    <div class="backup-code">
+
+                        {{ code }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="backup-actions">
+
+                <button
+                    type="button"
+                    class="auth-button"
+                    onclick="copyBackupCodes()"
+                >
+
+                    {{ ux_icon('lucide:copy', {
+                        class: 'button-icon'
+                    }) }}
+
+                    Copy Codes
+
+                </button>
+
+                <a
+                    href="{{ path('app_2fa_backup_codes_finish') }}"
+                    class="auth-button"
+                >
+
+                    {{ ux_icon('lucide:arrow-right', {
+                        class: 'button-icon'
+                    }) }}
+
+                    Continue
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function copyBackupCodes() {
+
+            const text = [...document.querySelectorAll('.backup-code')]
+                .map(code => code.innerText)
+                .join('\n');
+
+            navigator.clipboard.writeText(text);
+        }
+    </script>
+
+{% endblock %}

@@ -12,6 +12,7 @@ use App\Form\RegisterType;
 use App\Form\TwoFactorType;
 use App\Repository\UserRepository;
 use App\Security\CustomLoginAuthenticator;
+use App\Service\BackupCodeService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
@@ -31,6 +32,7 @@ class SecurityController extends AbstractController
 {
     public function __construct(
         private readonly UserService $userService,
+        private readonly BackupCodeService $backupCodeService,
     ) {
     }
 
@@ -163,12 +165,17 @@ class SecurityController extends AbstractController
             }
 
             $user->setGoogleAuthenticatorSecret($secret);
-            $entityManager->flush();
+
+            $backUpCodes = $this->backupCodeService->generateBackupCodes($user);
+
             $session->remove('pending_2fa_secret');
+            $session->set('new_backup_codes', $backUpCodes);
+
+            $entityManager->flush();
 
             $this->addFlash('success', 'Two-factor authentication enabled.');
 
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_2fa_backup_codes');
         }
 
         return $this->render('security/2fa_verify.html.twig', [
@@ -233,5 +240,26 @@ class SecurityController extends AbstractController
         return $this->render('security/change_password.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route(path: '/authenticate/backup_codes', name: 'app_2fa_backup_codes')]
+    public function backupCodes(
+        Request $request,
+    ): Response {
+        $codes = $request->getSession()->get('new_backup_codes');
+
+
+        return $this->render('security/backup_codes.html.twig', [
+            'backupCodes' => $codes,
+        ]);
+    }
+
+    #[Route('/authenticate/backup_codes/finish', name: 'app_2fa_backup_codes_finish')]
+    public function finishBackupCodes(
+        Request $request,
+    ) {
+        $request->getSession()->remove('new_backup_codes');
+
+        return $this->redirectToRoute('app_profile');
     }
 }
