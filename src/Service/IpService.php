@@ -41,7 +41,7 @@ readonly class IpService
                 $errors = $this->validator->validate($ipLocatorResponseDto);
 
                 if (count($errors) > 0) {
-                    throw new CityNotFoundException('City is not found.');
+                    throw new CityNotFoundException('City is not found. With ip address: '.$ipAddress);
                 }
 
                 return $this->parser->parseFromObject($ipLocatorResponseDto, IpLocationViewModel::class);
