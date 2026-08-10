@@ -32,6 +32,13 @@ class DashboardController extends AbstractController
     ) {
         $ipAddress = $request->getClientIp();
         $page = $request->query->getInt('page', 1);
+        dump([
+            'clientIp' => $request->getClientIp(),
+            'remoteAddr' => $request->server->get('REMOTE_ADDR'),
+            'xForwardedFor' => $request->headers->get('X-Forwarded-For'),
+            'xRealIp' => $request->headers->get('X-Real-IP'),
+            'forwarded' => $request->headers->get('Forwarded'),
+        ]);
 
         $savedCities = $this->savedCityRepository->getUserSavedCities(
             $user
