@@ -17,8 +17,6 @@ class GeoCodeViewModel
 
     public function __construct(){}
 
-
-
     public function getName(): string
     {
         return $this->name;

@@ -125,6 +125,4 @@ class CurrentWeatherDto
         return WeatherCode::getIconName($this->weatherCode);
     }
 
-
-
 }

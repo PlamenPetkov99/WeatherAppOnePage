@@ -17,9 +17,6 @@ class BackupCodeService implements BackupCodeManagerInterface
     ) {
     }
 
-    /**
-     * @throws RandomException
-     */
     public function generateBackupCodes(User $user): array
     {
         $plainCodes = [];

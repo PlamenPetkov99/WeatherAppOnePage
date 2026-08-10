@@ -63,7 +63,4 @@ class SaveCityDto
         $this->longitude = $longitude;
     }
 
-
-
-
 }

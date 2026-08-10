@@ -313,6 +313,4 @@ class IpLocationResponseDto
         $this->org = $org;
     }
 
-
-
 }

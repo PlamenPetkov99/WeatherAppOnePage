@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20260803081703 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,13 +16,13 @@ final class Version20260803081703 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+
         $this->addSql('ALTER TABLE "user" ADD backup_codes JSON DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+
         $this->addSql('CREATE UNIQUE INDEX unique_user_saved_city ON t_saved_city (user_id_id, city_name, country_name)');
         $this->addSql('ALTER TABLE "user" DROP backup_codes');
     }

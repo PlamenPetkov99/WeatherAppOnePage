@@ -16,7 +16,6 @@ readonly class WeatherRequestManager implements BaseHttpClientInterface
         private HttpClientInterface $weatherClient
     ){}
 
-
     public function get(RequestInputDataDto $data): ResponseInterface
     {
         return $this->weatherClient->request(

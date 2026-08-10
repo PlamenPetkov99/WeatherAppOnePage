@@ -17,8 +17,6 @@ class RequestInputDataDto
         return $this->ipAddress;
     }
 
-
-
     public function getLatitude(): ?float
     {
         return $this->latitude;

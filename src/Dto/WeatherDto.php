@@ -38,8 +38,6 @@ class WeatherDto
         $this->dailyUnits = $dailyUnits;
     }
 
-
-
     public function getLatitude(): float
     {
         return $this->latitude;

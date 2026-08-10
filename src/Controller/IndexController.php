@@ -39,17 +39,17 @@ final class IndexController extends AbstractController
         $form->handleRequest($request);
         $weather = null;
 
-        if ($form->isSubmitted() && $form->isValid()) { // fetch by city
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $geoCodeView = $this->geoService->findByCity($cityDto);
-                usleep(200000); // 200ms delay
+                usleep(200000);
                 $weather = $this->weatherService->getWeather($geoCodeView);
             } catch (CityNotFoundException $e) {
                 $form->addError(new FormError($e->getMessage()));
             }
-        } elseif (null !== $lat && null !== $lng) { // fetch by lat and lng
+        } elseif (null !== $lat && null !== $lng) {
             $geoCodeView = $this->geoService->findByCoordinates($lat, $lng);
-            usleep(200000); // 200ms delay
+            usleep(200000);
             $weather = $this->weatherService->getWeather($geoCodeView);
 
             $form->get('name')->setData($geoCodeView->getName());

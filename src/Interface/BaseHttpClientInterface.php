@@ -2,8 +2,6 @@
 
 namespace App\Interface;
 
-
-
 use App\Dto\RequestInputDataDto;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 

@@ -11,7 +11,9 @@ class DailyForecastUnitsDto
     private ?string $precipitationProbabilityMaxUnit;
     private ?string $windSpeedUnit;
 
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     public function getTimeUnit(): ?string
     {
@@ -21,6 +23,7 @@ class DailyForecastUnitsDto
     public function setTimeUnit(?string $timeUnit): self
     {
         $this->timeUnit = $timeUnit;
+
         return $this;
     }
 
@@ -32,6 +35,7 @@ class DailyForecastUnitsDto
     public function setWeatherCode(?string $weatherCode): self
     {
         $this->weatherCode = $weatherCode;
+
         return $this;
     }
 
@@ -43,6 +47,7 @@ class DailyForecastUnitsDto
     public function setTemperatureMaxUnit(?string $temperatureMaxUnit): self
     {
         $this->temperatureMaxUnit = $temperatureMaxUnit;
+
         return $this;
     }
 
@@ -54,6 +59,7 @@ class DailyForecastUnitsDto
     public function setTemperatureMinUnit(?string $temperatureMinUnit): self
     {
         $this->temperatureMinUnit = $temperatureMinUnit;
+
         return $this;
     }
 
@@ -65,6 +71,7 @@ class DailyForecastUnitsDto
     public function setPrecipitationProbabilityMaxUnit(?string $precipitationProbabilityMaxUnit): self
     {
         $this->precipitationProbabilityMaxUnit = $precipitationProbabilityMaxUnit;
+
         return $this;
     }
 
@@ -76,9 +83,7 @@ class DailyForecastUnitsDto
     public function setWindSpeedUnit(?string $windSpeedUnit): self
     {
         $this->windSpeedUnit = $windSpeedUnit;
+
         return $this;
     }
-
-
-
 }

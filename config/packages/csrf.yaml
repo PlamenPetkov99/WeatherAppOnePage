@@ -1,6 +1,3 @@
-# Enable stateless CSRF protection for logins/logouts.
-# Forms each use their own distinct csrf_token_id (set per FormType) instead of a
-# shared default, so a token minted for one form can't be replayed on another.
 framework:
     csrf_protection:
         stateless_token_ids:

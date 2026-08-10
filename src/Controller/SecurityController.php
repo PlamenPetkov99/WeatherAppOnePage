@@ -32,10 +32,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 
 class SecurityController extends AbstractController
 {
-    /**
-     * Bcrypt hash of an unused placeholder password, used to keep the login timing
-     * constant when no user matches the submitted email (avoids user enumeration).
-     */
     private const DUMMY_PASSWORD_HASH = '$2y$12$BoXF/T7GWsH6wxsW2FusYevo7NvtrrnWZGq1TtI5OPHxvNNwFpuJC';
 
     public function __construct(
@@ -129,6 +125,11 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    public function twoFactorCheckFallback(): Response
+    {
+        return $this->redirectToRoute('app_login');
     }
 
     #[Route(path: '/authenticate/2fa/enable', name: 'app_2fa_enable')]
@@ -272,7 +273,6 @@ class SecurityController extends AbstractController
             'backupCodes' => $codes,
         ]);
     }
-
 
     #[Route('/authenticate/backup_codes/finish', name: 'app_2fa_backup_codes_finish')]
     public function finishBackupCodes(
