@@ -42,7 +42,7 @@ class DashboardController extends AbstractController
             $request->query->getInt('page', 1)
         );
 
-        $ipLocationViewModel = $this->ipService->findCityByIp('8.8.8.8'); //TODO CHANGE IT LATER
+        $ipLocationViewModel = $this->ipService->findCityByIp('8.8.8.8'); // TODO CHANGE IT LATER
 
         $weather = $this->weatherService->getWeather(
             GeoCodeViewBuilder::build([

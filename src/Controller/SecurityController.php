@@ -17,19 +17,27 @@ use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\TwoFactorFirewallContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Exception\LogicException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * Bcrypt hash of an unused placeholder password, used to keep the login timing
+     * constant when no user matches the submitted email (avoids user enumeration).
+     */
+    private const DUMMY_PASSWORD_HASH = '$2y$12$BoXF/T7GWsH6wxsW2FusYevo7NvtrrnWZGq1TtI5OPHxvNNwFpuJC';
+
     public function __construct(
         private readonly UserService $userService,
         private readonly BackupCodeService $backupCodeService,
@@ -42,6 +50,8 @@ class SecurityController extends AbstractController
         UserRepository $userRepository,
         UserPasswordHasherInterface $hasher,
         Security $security,
+        #[Autowire(service: 'limiter.login')]
+        RateLimiterFactory $loginLimiter,
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_index');
@@ -53,6 +63,16 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $limiter = $loginLimiter->create($request->getClientIp().'|'.$loginDto->getEmail());
+
+            if (!$limiter->consume(1)->isAccepted()) {
+                $form->get('password')->addError(new FormError('Too many login attempts. Please try again later.'));
+
+                return $this->render('security/login.html.twig', [
+                    'form' => $form,
+                ]);
+            }
+
             $user = $userRepository->findOneBy(['email' => $loginDto->getEmail()]);
 
             $badges = [];
@@ -61,7 +81,12 @@ class SecurityController extends AbstractController
                 $badges[] = new RememberMeBadge()->enable();
             }
 
-            if ($user && $hasher->isPasswordValid($user, $loginDto->getPassword())) {
+            $dummyUser = (new User())->setPassword(self::DUMMY_PASSWORD_HASH);
+            $passwordValid = $hasher->isPasswordValid($user ?? $dummyUser, $loginDto->getPassword());
+
+            if ($user && $passwordValid) {
+                $limiter->reset();
+
                 return $security->login(
                     $user,
                     CustomLoginAuthenticator::class,
@@ -111,10 +136,8 @@ class SecurityController extends AbstractController
         GoogleAuthenticatorInterface $googleAuthenticator,
         BuilderInterface $defaultBuilder,
         Request $request,
+        #[CurrentUser] User $user,
     ): ?Response {
-        $user = $this->getUser();
-        assert($user instanceof User);
-
         $session = $request->getSession();
         $secret = $session->get('pending_2fa_secret');
         if (null === $secret) {
@@ -139,11 +162,11 @@ class SecurityController extends AbstractController
         Request $request,
         GoogleAuthenticatorInterface $googleAuthenticator,
         EntityManagerInterface $entityManager,
+        #[CurrentUser] User $user,
     ) {
         $form = $this->createForm(TwoFactorType::class);
         $form->handleRequest($request);
 
-        $user = $this->getUser();
         $session = $request->getSession();
         $secret = $session->get('pending_2fa_secret');
 
@@ -153,7 +176,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_2fa_enable');
         }
 
-        assert($user instanceof User);
         $userCopy = clone $user;
         $userCopy->setGoogleAuthenticatorSecret($secret);
 
@@ -167,7 +189,6 @@ class SecurityController extends AbstractController
             $user->setGoogleAuthenticatorSecret($secret);
 
             $backUpCodes = $this->backupCodeService->generateBackupCodes($user);
-
             $session->remove('pending_2fa_secret');
             $session->set('new_backup_codes', $backUpCodes);
 
@@ -195,19 +216,6 @@ class SecurityController extends AbstractController
         $this->addFlash('success', 'Two-factor authentication disabled.');
 
         return $this->redirectToRoute('app_profile');
-    }
-
-    #[Route(path: '/2fa', name: 'app_2fa_form', methods: ['GET'])]
-    public function twoFactorForm(): Response
-    {
-        return $this->render('security/2fa_template.html.twig', [
-        ]);
-    }
-
-    #[Route(path: '/2fa_check', name: 'app_2fa_check', methods: ['POST'])]
-    public function twoFactorFormVerify(): void
-    {
-        throw new LogicException(message: 'This request should not be here!');
     }
 
     #[Route(path: '/authenticate/change_password', name: 'app_change_password')]
@@ -242,17 +250,29 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    #[Route('/authenticate/2fa_backup', name: 'app_2fa_backup_form', methods: ['GET'])]
+    public function backupTwoFactorForm(TwoFactorFirewallContext $twoFactorFirewallContext): Response
+    {
+        $config = $twoFactorFirewallContext->getFirewallConfig('main');
+
+        return $this->render('security/backup_template.html.twig', [
+            'isCsrfProtectionEnabled' => $config->isCsrfProtectionEnabled(),
+            'csrfParameterName' => $config->getCsrfParameterName(),
+            'csrfTokenId' => $config->getCsrfTokenId(),
+        ]);
+    }
+
     #[Route(path: '/authenticate/backup_codes', name: 'app_2fa_backup_codes')]
     public function backupCodes(
         Request $request,
     ): Response {
         $codes = $request->getSession()->get('new_backup_codes');
 
-
         return $this->render('security/backup_codes.html.twig', [
             'backupCodes' => $codes,
         ]);
     }
+
 
     #[Route('/authenticate/backup_codes/finish', name: 'app_2fa_backup_codes_finish')]
     public function finishBackupCodes(

@@ -9,8 +9,9 @@ scheb_two_factor:
         leeway: 25
         template: security/2fa_template.html.twig
 
-#    backup_codes:
-#        enabled: true
+    backup_codes:
+        enabled: true
+        manager: App\Service\BackupCodeService
 
 
     security_tokens:

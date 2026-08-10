@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -17,7 +16,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, BackupCodeInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -290,23 +289,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this;
     }
 
-    public function isBackupCode(string $code): bool
+    public function addBackupCode(string $backupCode): void
     {
-        return in_array($code, $this->backupCodes, true);
-    }
-
-    public function invalidateBackupCode(string $code): void
-    {
-        $key = array_search($code, $this->backupCodes, true);
-        if (false !== $key) {
-            unset($this->backupCodes[$key]);
-        }
-    }
-
-    public function addBackUpCode(string $backUpCode): void
-    {
-        if (!in_array($backUpCode, $this->backupCodes, true)) {
-            $this->backupCodes[] = $backUpCode;
+        if (!in_array($backupCode, $this->backupCodes, true)) {
+            $this->backupCodes[] = $backupCode;
         }
     }
 
