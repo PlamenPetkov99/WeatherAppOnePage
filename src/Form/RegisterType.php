@@ -49,6 +49,7 @@ class RegisterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => RegisterUserDto::class,
+            'csrf_token_id' => 'register',
         ]);
     }
 }

@@ -1,21 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Two-Factor Authentication - SkyCast
+    Backup Code Authentication - SkyCast
 {% endblock %}
 
 {% block body %}
+
 
     <div class="auth-wrapper">
 
         <div class="auth-card auth-card-2fa">
 
-            <div class="auth-icon">🔐</div>
+            <div class="auth-icon">🔑</div>
 
-            <h1>Two-Factor Authentication</h1>
+            <h1>Backup Code</h1>
 
             <p class="auth-subtitle">
-                Enter the 6-digit code from your Authenticator app to continue.
+                Enter one of your backup codes to continue.
             </p>
 
             {% if authenticationError is defined and authenticationError %}
@@ -29,7 +30,7 @@
                 <div class="form-group">
 
                     <label for="code">
-                        Authentication code
+                        Backup code
                     </label>
 
                     <input
@@ -37,9 +38,8 @@
                         name="code"
                         type="text"
                         class="auth-code-input"
-                        placeholder="123456"
-                        autocomplete="one-time-code"
-                        maxlength="6"
+                        placeholder="XXXXXXXXXX"
+                        autocomplete="off"
                         required
                         autofocus
                     >
@@ -58,14 +58,12 @@
                     <div class="form-group-checkbox">
 
                         <label>
-
                             <input
                                 type="checkbox"
                                 name="_trusted"
                             >
 
                             Trust this device
-
                         </label>
 
                     </div>
@@ -77,41 +75,33 @@
                 >
                     {{ ux_icon('lucide:corner-down-left', {
                         class: 'nav-icon'
-                    }) }} Verify code
+                    }) }}
+
+                    Verify backup code
                 </button>
 
             </form>
-
-            <a
-                href="{{ path('app_2fa_backup_form') }}"
-                class="auth-secondary-button"
-            >
-                {{ ux_icon('lucide:key-round', {
-                    class: 'nav-icon'
-                }) }}
-
-                Use a backup code instead
-            </a>
 
             <form method="post" action="{{ path('app_logout') }}" style="display:contents;">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
                 <button type="submit" class="auth-secondary-button">
                     {{ ux_icon('lucide:move-left', {
                         class: 'nav-icon'
-                    }) }} Cancel and log out
+                    }) }}
+
+                    Cancel and log out
                 </button>
             </form>
 
             <div class="auth-help">
 
                 <p>
-                    Open <strong>Google Authenticator</strong>,
-                    <strong>Microsoft Authenticator</strong>,
-                    or <strong>Authy</strong> and enter the current code.
+                    Backup codes are one-time codes that can be used
+                    if you don't have access to your authenticator app.
                 </p>
 
                 <p class="auth-help-small">
-                    The code changes every 30 seconds.
+                    Each backup code can only be used once.
                 </p>
 
             </div>
@@ -119,5 +109,6 @@
         </div>
 
     </div>
+
 
 {% endblock %}

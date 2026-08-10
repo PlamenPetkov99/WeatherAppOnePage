@@ -371,6 +371,14 @@ body {
     transform:translateY(-1px);
 }
 
+button.navbar-link,
+button.auth-secondary-button {
+    font: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
 
 
 .navbar-primary {

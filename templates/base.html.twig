@@ -69,11 +69,14 @@
                             }) }} Dashboard
                         </a>
 
-                        <a class="navbar-link navbar-primary" href="{{ path(name: 'app_logout') }}">
-                            {{ ux_icon('lucide:log-out', {
-                                class: 'nav-icon'
-                            }) }} Logout
-                        </a>
+                        <form method="post" action="{{ path(name: 'app_logout') }}" style="display:contents;">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                            <button type="submit" class="navbar-link navbar-primary">
+                                {{ ux_icon('lucide:log-out', {
+                                    class: 'nav-icon'
+                                }) }} Logout
+                            </button>
+                        </form>
 
                     {% else %}
 

@@ -3,7 +3,14 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    # save_path is pinned to a project-local directory instead of the system-wide
+    # default (/var/lib/php/sessions on Debian/Ubuntu), which is shared by every
+    # PHP process on the machine and swept every 30 minutes by cron
+    # (/usr/lib/php/sessionclean) — that was causing logged-in sessions to
+    # disappear mid-use.
+    session:
+        handler_id: 'session.handler.native_file'
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
 
     #esi: true
     #fragments: true
