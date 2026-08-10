@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use ApiPlatform\Metadata\UrlGeneratorInterface;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -35,12 +34,6 @@ class CustomLoginAuthenticator extends AbstractAuthenticator implements Authenti
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $user = $token->getUser();
-        assert($user instanceof User);
-        if (!$user->isGoogleAuthenticatorEnabled()) {
-            $this->requestStack->getSession()->getFlashBag()->add('success', 'You have been logged in!');
-        }
-
         return new RedirectResponse($this->urlGenerator->generate('app_profile'));
     }
 

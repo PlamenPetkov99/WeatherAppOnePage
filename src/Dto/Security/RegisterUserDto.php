@@ -2,12 +2,14 @@
 
 namespace App\Dto\Security;
 
+use App\Validator\Registered;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegisterUserDto
 {
     #[Assert\NotBlank(message: 'Email is required')]
     #[Assert\Email(message: 'Email is invalid')]
+    #[Registered]
     private string $email;
 
     #[Assert\NotBlank(message: 'Password is required')]
@@ -36,6 +38,5 @@ class RegisterUserDto
     {
         $this->password = $password;
     }
-
 
 }

@@ -74,5 +74,4 @@ class IpLocationViewModel
         $this->countryCode = $countryCode;
     }
 
-
 }

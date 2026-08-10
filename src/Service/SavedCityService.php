@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Dto\SaveCityDto;
 use App\Entity\SavedCity;
 use App\Entity\User;
@@ -46,6 +45,5 @@ class SavedCityService
         $this->entityManager->flush();
         return true;
     }
-
 
 }

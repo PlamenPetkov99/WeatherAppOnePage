@@ -5,3 +5,5 @@
 
 2fa_login_check:
     path: /2fa_check
+    defaults:
+        _controller: "App\\Controller\\SecurityController::twoFactorCheckFallback"

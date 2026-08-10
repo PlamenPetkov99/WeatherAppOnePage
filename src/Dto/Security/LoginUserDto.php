@@ -28,8 +28,6 @@ class LoginUserDto
         $this->_token = $token;
     }
 
-
-
     public function getRememberMe(): ?string
     {
         return $this->rememberMe;

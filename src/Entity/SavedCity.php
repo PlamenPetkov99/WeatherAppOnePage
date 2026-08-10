@@ -50,7 +50,6 @@ class SavedCity
         $this->createdAt = new \DateTimeImmutable('now');
     }
 
-
     public function getId(): ?Uuid
     {
         return $this->id;

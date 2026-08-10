@@ -70,7 +70,7 @@
                         </a>
 
                         <form method="post" action="{{ path(name: 'app_logout') }}" style="display:contents;">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                            <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('logout') }}">
                             <button type="submit" class="navbar-link navbar-primary">
                                 {{ ux_icon('lucide:log-out', {
                                     class: 'nav-icon'

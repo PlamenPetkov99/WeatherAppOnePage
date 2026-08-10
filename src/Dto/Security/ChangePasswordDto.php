@@ -27,7 +27,6 @@ class ChangePasswordDto
         $this->currentPassword = $currentPassword;
     }
 
-
     public function getNewPassword(): string
     {
         return $this->newPassword;

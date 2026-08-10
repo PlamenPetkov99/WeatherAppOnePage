@@ -32,5 +32,4 @@ class GeoResponseDto
         $this->generationTimeMs = $generationTimeMs;
     }
 
-
 }
